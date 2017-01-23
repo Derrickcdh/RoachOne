@@ -87,31 +87,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="entity.cpp" />
     <ClCompile Include="flyGame.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="graphics.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="input.cpp" />
-    <ClCompile Include="spitBall.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="sushi.cpp" />
     <ClCompile Include="textDX.cpp" />
     <ClCompile Include="textureManager.cpp" />
-    <ClCompile Include="web.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h" />
+    <ClInclude Include="entity.h" />
     <ClInclude Include="flyGame.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameError.h" />
     <ClInclude Include="graphics.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="input.h" />
-    <ClInclude Include="spitBall.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="sushi.h" />
     <ClInclude Include="textDX.h" />
     <ClInclude Include="textureManager.h" />
-    <ClInclude Include="web.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />

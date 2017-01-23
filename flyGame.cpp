@@ -10,6 +10,7 @@
 #include <time.h>
 #include <Windows.h>
 #include <ctime>
+
 time_t start;		// timer
 int seconds;		//seconds for the timer
 time_t animationTime;//animation time for each animation that is executed
@@ -60,6 +61,12 @@ void flyGame::initialize(HWND hwnd)
 	if (!backgrounds.initialize(graphics, 0, 0, 0, &backgroundsTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing backgrounds"));
 
+	if (!playerTexture.initialize(graphics, PLAYER_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing player"));
+
+	if (!player.initialize(this, playerNS::WIDTH, playerNS::HEIGHT, 0, &playerTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing player"));
+
 	// roach one menu texture
 	if (!menuTexture.initialize(graphics, ROACHONE_MENU))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing roach one menu texture"));
@@ -103,6 +110,9 @@ void flyGame::initialize(HWND hwnd)
 	background.setX(GAME_WIDTH / 700);
 	backgrounds.setX(GAME_WIDTH / 1);
 
+	player.setX(100);
+	player.setY(GAME_HEIGHT - 100);
+
 	return;
 }
 
@@ -127,6 +137,7 @@ void flyGame::update()
 		scorePoint = 0;		//reset the score
 		timer = 60;
 		elapsed_secs = 0;
+
 	}
 	if (input->isKeyDown(VK_2) && gameStart == 3)
 	{
@@ -140,6 +151,17 @@ void flyGame::update()
 		scorePoint = 0;		//reset the score
 		timer = 60;
 		elapsed_secs = 0;
+	}
+
+	if (gameStart == 1 && input->isKeyDown(VK_SPACE))
+	{
+		player.setY(player.getY() - playerNS::SPEED * 1);
+		player.update(frameTime);
+	}
+	else
+	{
+		player.setY(player.getY() - playerNS::SPEED * 1);
+		player.drop(frameTime);
 	}
 
 	background.setX(background.getX() + frameTime * ZENTT_SPEED);
@@ -188,6 +210,7 @@ void flyGame::render()
 	{
 		background.draw();
 		backgrounds.draw();
+		player.draw();
 		dxFontMedium->setFontColor(graphicsNS::WHITE);
 		dxFontMedium->print(to_string(displayTimer()), 0, 20);
 	}
@@ -195,6 +218,7 @@ void flyGame::render()
 	{
 		background.draw();
 		backgrounds.draw();
+		player.draw();
 		dxFontMedium->setFontColor(graphicsNS::WHITE);
 		dxFontMedium->print(to_string(displayTimer()), 0, 20);
 	}

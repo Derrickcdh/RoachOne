@@ -44,6 +44,7 @@ const float FRAME_RATE  = 200.0f;               // the target frame rate (frames
 const float MIN_FRAME_RATE = 10.0f;             // the minimum frame rate
 const float MIN_FRAME_TIME = 1.0f/FRAME_RATE;   // minimum desired time for 1 frame
 const float MAX_FRAME_TIME = 1.0f/MIN_FRAME_RATE; // maximum time used in calculations
+const float GRAVITY = 500.0f;                   // acceleration of gravity pixels/sec
 
 // key mappings
 // In this game simple constants are used for key mappings. If variables were used
@@ -59,6 +60,7 @@ const char ROACHONE_MENU[] = "pictures\\RoachOne.jpg";  // Photo of Japan flag
 const char GAMEMODE_IMAGE[] = "pictures\\Intro&GameMode.jpg";
 const char MODE1_IMAGE[] = "pictures\\gamemode1.jpg";
 const char MODE2_IMAGE[] = "pictures\\gamemode2.jpg";
+const char PLAYER_IMAGE[] = "pictures\\roach.jpg";
 const int  ZENTT_START_FRAME = 0;         // starting frame of ship animation
 const int  ZENTT_END_FRAME = 0;           // last frame of ship animation
 const float ZENTT_ANIMATION_DELAY = 0.2f; // time between frames of ship animation

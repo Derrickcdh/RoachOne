@@ -1,14 +1,11 @@
-//  Module:             GamePlay Programming
-//  Assignment2:        Sushi Master
-//  Student Name:       Choong Di Han Derrick, Andre hiu yuan xiang, ting hong yang
-//  Student Number:     S10161350, S10127976, S10159859
+// Programming 2D Games
+// Copyright (c) 2011 by:
+// Charles Kelly
+// Chapter 6 graphics.h v1.0
 
-#ifndef _GRAPHICS_H             // prevent multiple definitions if this 
-#define _GRAPHICS_H             // ..file is included in more than one place
+#ifndef _GRAPHICS_H             // Prevent multiple definitions if this 
+#define _GRAPHICS_H             // file is included in more than one place
 #define WIN32_LEAN_AND_MEAN
-#define LP_TEXTURE  LPDIRECT3DTEXTURE9
-#define LP_SPRITE   LPD3DXSPRITE
-#define LP_DXFONT   LPD3DXFONT
 
 #ifdef _DEBUG
 #define D3D_DEBUG_INFO
@@ -19,13 +16,17 @@
 #include "gameError.h"
 
 // DirectX pointer types
+#define LP_TEXTURE  LPDIRECT3DTEXTURE9
+#define LP_SPRITE   LPD3DXSPRITE
+#define LP_DXFONT	LPD3DXFONT
 #define LP_3DDEVICE LPDIRECT3DDEVICE9
 #define LP_3D       LPDIRECT3D9
+#define VECTOR2     D3DXVECTOR2
 
 // Color defines
 #define COLOR_ARGB DWORD
 #define SETCOLOR_ARGB(a,r,g,b) \
-    ((COLOR_ARGB)((((a)&0xff)<<24)|(((r)&0xff)<<16)|(((g)&0xff)<<8)|((b)&0xff)))
+	((COLOR_ARGB)((((a)& 0xff) << 24) | (((r)& 0xff) << 16) | (((g)& 0xff) << 8) | ((b)& 0xff)))
 
 namespace graphicsNS
 {
@@ -59,8 +60,7 @@ namespace graphicsNS
 	enum DISPLAY_MODE{ TOGGLE, FULLSCREEN, WINDOW };
 }
 
-
-
+// SpriteData: The properties required by Graphics::drawSprite to draw a sprite
 struct SpriteData
 {
 	int         width;      // width of sprite in pixels
@@ -69,123 +69,146 @@ struct SpriteData
 	float       y;
 	float       scale;      // <1 smaller, >1 bigger
 	float       angle;      // rotation angle in radians
-	float		random;
 	RECT        rect;       // used to select an image from a larger texture
 	LP_TEXTURE  texture;    // pointer to texture
 	bool        flipHorizontal; // true to flip sprite horizontally (mirror)
 	bool        flipVertical;   // true to flip sprite vertically
 };
 
-
 class Graphics
 {
-
 private:
-    // DirectX pointers and stuff
-    LP_3D       direct3d;
-    LP_3DDEVICE device3d;
+	// DirectX pointers and stuff
+	LP_3D       direct3d;
+	LP_3DDEVICE device3d;
 	LP_SPRITE   sprite;
-    D3DPRESENT_PARAMETERS d3dpp;
-    D3DDISPLAYMODE pMode;
+	D3DPRESENT_PARAMETERS d3dpp;
+	D3DDISPLAYMODE pMode;
 
-    // other variables
-    HRESULT     result;         // standard Windows return codes
-    HWND        hwnd;
-    bool        fullscreen;
-    int         width;
-    int         height;
-    COLOR_ARGB  backColor;      // background color
+	// other variables
+	HRESULT     result;         // standard Windows return codes
+	HWND        hwnd;
+	bool        fullscreen;
+	int         width;
+	int         height;
+	COLOR_ARGB  backColor;      // background color
 
-    // (For internal engine use only. No user serviceable parts inside.)
-    // Initialize D3D presentation parameters
-    void    initD3Dpp();
+	// (For internal engine use only. No user serviceable parts inside.)
+	// Initialize D3D presentation parameters
+	void    initD3Dpp();
 
 public:
-    // Constructor
-    Graphics();
+	// Constructor
+	Graphics();
 
-    // Destructor
-    virtual ~Graphics();
+	// Destructor
+	virtual ~Graphics();
 
-    // Releases direct3d and device3d.
-    void    releaseAll();
+	// Releases direct3d and device3d.
+	void    releaseAll();
 
-    // Initialize DirectX graphics
-    // Throws GameError on error
-    // Pre: hw = handle to window
-    //      width = width in pixels
-    //      height = height in pixels
-    //      fullscreen = true for full screen, false for window
-    void    initialize(HWND hw, int width, int height, bool fullscreen);
+	// Initialize DirectX graphics
+	// Throws GameError on error
+	// Pre: hw = handle to window
+	//      width = width in pixels
+	//      height = height in pixels
+	//      fullscreen = true for full screen, false for window
+	void    initialize(HWND hw, int width, int height, bool fullscreen);
 
-    // Display the offscreen backbuffer to the screen.
-    HRESULT showBackbuffer();
+	// Load the texture into default D3D memory (normal texture use)
+	// For internal engine use only. Use the TextureManager class to load game textures.
+	// Pre: filename = name of texture file.
+	//      transcolor = transparent color
+	// Post: width and height = size of texture
+	//       texture points to texture
+	HRESULT loadTexture(const char * filename, COLOR_ARGB transcolor, UINT &width, UINT &height, LP_TEXTURE &texture);
 
-    // Checks the adapter to see if it is compatible with the BackBuffer height,
-    // width and refresh rate specified in d3dpp. Fills in the pMode structure with
-    // the format of the compatible mode, if found.
-    // Pre: d3dpp is initialized.
-    // Post: Returns true if compatible mode found and pMode structure is filled.
-    //       Returns false if no compatible mode found.
-    bool    isAdapterCompatible();
+	// Display the offscreen backbuffer to the screen.
+	HRESULT showBackbuffer();
 
-    // Reset the graphics device.
-    HRESULT reset();
+	// Checks the adapter to see if it is compatible with the BackBuffer height,
+	// width and refresh rate specified in d3dpp. Fills in the pMode structure with
+	// the format of the compatible mode, if found.
+	// Pre: d3dpp is initialized.
+	// Post: Returns true if compatible mode found and pMode structure is filled.
+	//       Returns false if no compatible mode found.
+	bool    isAdapterCompatible();
 
-    // get functions
-    // Return direct3d.
-    LP_3D   get3D()             { return direct3d; }
+	// Draw the sprite described in SpriteData structure.
+	// color is optional, it is applied as a filter, WHITE is default (no change).
+	// Creates a sprite Begin/End pair.
+	// Pre: spriteData.rect defines the portion of spriteData.texture to draw
+	//      spriteData.rect.right must be right edge + 1
+	//      spriteData.rect.bottom must be bottom edge + 1
+	void    drawSprite(const SpriteData &spriteData,           // sprite to draw
+		COLOR_ARGB color = graphicsNS::WHITE);      // default to white color filter (no change)
 
-    // Return device3d.
+	// Reset the graphics device.
+	HRESULT reset();
+
+	// Toggle, fullscreen or window display mode
+	// Pre: All user created D3DPOOL_DEFAULT surfaces are freed.
+	// Post: All user surfaces are recreated.
+	void    changeDisplayMode(graphicsNS::DISPLAY_MODE mode = graphicsNS::TOGGLE);
+
+	// Return length of vector v.
+	static float    Vector2Length(const VECTOR2 *v) { return D3DXVec2Length(v); }
+
+	// Return Dot product of vectors v1 and v2.
+	static float    Vector2Dot(const VECTOR2 *v1, const VECTOR2 *v2) { return D3DXVec2Dot(v1, v2); }
+
+	// Normalize vector v.
+	static void     Vector2Normalize(VECTOR2 *v) { D3DXVec2Normalize(v, v); }
+
+	// Transform vector v with matrix m.
+	static VECTOR2* Vector2Transform(VECTOR2 *v, D3DXMATRIX *m) { return D3DXVec2TransformCoord(v, v, m); }
+
+	// get functions
+	// Return direct3d.
+	LP_3D   get3D()             { return direct3d; }
+
+	// Return device3d.
 	LP_3DDEVICE get3Ddevice()   { return device3d; }
 
 	// Return sprite
 	LP_SPRITE   getSprite()     { return sprite; }
 
-    // Return handle to device context (window).
-    HDC     getDC()             { return GetDC(hwnd); }
+	// Return handle to device context (window).
+	HDC     getDC()             { return GetDC(hwnd); }
 
-    // Test for lost device
-    HRESULT getDeviceState();
+	// Test for lost device
+	HRESULT getDeviceState();
 
-    //=============================================================================
-    // Inline functions for speed. How much more speed? It depends on the game and
-    // computer. Improvements of 3 or 4 percent have been observed.
-    //=============================================================================
+	// Return fullscreen
+	bool    getFullscreen()     { return fullscreen; }
 
-    // Set color used to clear screen
-    void setBackColor(COLOR_ARGB c) {backColor = c;}
+	// Set color used to clear screen
+	void setBackColor(COLOR_ARGB c) { backColor = c; }
 
-    //=============================================================================
-    // Clear backbuffer and BeginScene()
-    //=============================================================================
-    HRESULT beginScene() 
-    {
-        result = E_FAIL;
-        if(device3d == NULL)
-            return result;
-        // clear backbuffer to backColor
-        device3d->Clear(0, NULL, D3DCLEAR_TARGET, backColor, 1.0F, 0);
-        result = device3d->BeginScene();          // begin scene for drawing
-        return result;
-    }
+	//=============================================================================
+	// Clear backbuffer and BeginScene()
+	//=============================================================================
+	HRESULT beginScene()
+	{
+		result = E_FAIL;
+		if (device3d == NULL)
+			return result;
+		// clear backbuffer to backColor
+		device3d->Clear(0, NULL, D3DCLEAR_TARGET, backColor, 1.0F, 0);
+		result = device3d->BeginScene();          // begin scene for drawing
+		return result;
+	}
 
-    //=============================================================================
-    // EndScene()
-    //=============================================================================
-    HRESULT endScene() 
-    {
-        result = E_FAIL;
-        if(device3d)
-            result = device3d->EndScene();
-        return result;
-    }
-	// Load the texture into default D3D memory (normal texture use)
-	HRESULT loadTexture(const char * filename, COLOR_ARGB transcolor, UINT &width, UINT &height, LP_TEXTURE &texture);
-	// Draw the sprite described in SpriteData structure.
-	void    drawSprite(const SpriteData &spriteData, // sprite to draw
-		COLOR_ARGB color = graphicsNS::WHITE); // default to white 
-	//color filter (no change)
+	//=============================================================================
+	// EndScene()
+	//=============================================================================
+	HRESULT endScene()
+	{
+		result = E_FAIL;
+		if (device3d)
+			result = device3d->EndScene();
+		return result;
+	}
 
 	//=============================================================================
 	// Sprite Begin
@@ -202,7 +225,6 @@ public:
 	{
 		sprite->End();
 	}
-
 };
 
 #endif

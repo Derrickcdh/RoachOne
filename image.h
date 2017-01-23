@@ -123,9 +123,6 @@ public:
 	// Set scale.
 	virtual void setScale(float s)  { spriteData.scale = s; }
 
-	// Set rand enemy
-	virtual void setRandEnemy(float r) { spriteData.random = r; }
-
 	// Set rotation angle in degrees.
 	// 0 degrees is up. Angles progress clockwise.
 	virtual void setDegrees(float deg)  { spriteData.angle = deg*((float)PI / 180.0f); }
