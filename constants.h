@@ -34,7 +34,7 @@
 // window
 const char CLASS_NAME[] = "SushiMaster";
 const char GAME_TITLE[] = "SushiMaster";
-const bool FULLSCREEN = false;              // windowed or fullscreen
+const bool FULLSCREEN = true;              // windowed or fullscreen
 const UINT GAME_WIDTH =  1280;               // width of game in pixels
 const UINT GAME_HEIGHT = 720;               // height of game in pixels
  
@@ -53,8 +53,12 @@ const UCHAR ALT_KEY      = VK_MENU;     // Alt key
 const UCHAR ENTER_KEY    = VK_RETURN;   // Enter key
 
 // graphic images
-const char BACKGROUND_IMAGE[] = "pictures\\backgrounds.jpg";  
-const char JAP_MENU[] = "pictures\\Japanese.jpg";  // Photo of Japan flag
+const char BACKGROUND_IMAGE[] = "pictures\\background.png";
+const char BACKGROUNDS_IMAGE[] = "pictures\\background.png";
+const char ROACHONE_MENU[] = "pictures\\RoachOne.jpg";  // Photo of Japan flag
+const char GAMEMODE_IMAGE[] = "pictures\\Intro&GameMode.jpg";
+const char MODE1_IMAGE[] = "pictures\\gamemode1.jpg";
+const char MODE2_IMAGE[] = "pictures\\gamemode2.jpg";
 const int  ZENTT_START_FRAME = 0;         // starting frame of ship animation
 const int  ZENTT_END_FRAME = 0;           // last frame of ship animation
 const float ZENTT_ANIMATION_DELAY = 0.2f; // time between frames of ship animation
