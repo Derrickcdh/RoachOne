@@ -43,17 +43,65 @@ void flyGame::initialize(HWND hwnd)
 	//PlaySound("pictures\\BGM.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);				// play sound file
 
 	Game::initialize(hwnd); // throws GameError
-	// jap menu texture
-	if (!menuTexture.initialize(graphics, JAP_MENU))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing Japanese menu texture"));
 
-	// jap menu
+	// background texture
+	if (!backgroundTexture.initialize(graphics, BACKGROUND_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing background texture"));
+
+	// background
+	if (!background.initialize(graphics, 0, 0, 0, &backgroundTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing background"));
+
+	// backgrounds texture
+	if (!backgroundsTexture.initialize(graphics, BACKGROUNDS_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing backgrounds texture"));
+
+	// backgrounds
+	if (!backgrounds.initialize(graphics, 0, 0, 0, &backgroundsTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing backgrounds"));
+
+	// roach one menu texture
+	if (!menuTexture.initialize(graphics, ROACHONE_MENU))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing roach one menu texture"));
+
+	// roach one menu
 	if (!menu.initialize(graphics, 0, 0, 0, &menuTexture))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing menu"));
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing roach one menu"));
+
+	// game mode texture
+	if (!gamemodeTexture.initialize(graphics, GAMEMODE_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing game mode texture"));
+
+	// game mode
+	if (!gamemode.initialize(graphics, 0, 0, 0, &gamemodeTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing game mode menu"));
+
+	// mode 1 texture
+	if (!mode1Texture.initialize(graphics, MODE1_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing mode 1 texture"));
+
+	// mode 1
+	if (!mode1.initialize(graphics, 0, 0, 0, &mode1Texture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing mode 1"));
+
+	// mode 2 texture
+	if (!mode2Texture.initialize(graphics, MODE2_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing mode 2 texture"));
+
+	// mode 2
+	if (!mode2.initialize(graphics, 0, 0, 0, &mode2Texture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing mode 2"));
 
 	// timer
 	if (dxFontMedium->initialize(graphics, 62, true, false, "Calibri") == false)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
+
+	// score
+	if (dxFontMedium->initialize(graphics, 62, true, false, "Calibri") == false)
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
+
+	background.setX(GAME_WIDTH / 700);
+	backgrounds.setX(GAME_WIDTH / 1);
 
 	return;
 }
@@ -63,7 +111,28 @@ void flyGame::initialize(HWND hwnd)
 //=============================================================================
 void flyGame::update()
 {
-	if (input->isKeyDown(VK_1) && gameStart == 0)            // Game start level 1, 
+	if (input->isKeyDown(VK_RETURN) && gameStart == 0)            // Game start level 1, 
+	{
+		gameStart = 3;		//set the game mode
+	}
+	if (input->isKeyDown(VK_1) && gameStart == 3)
+	{
+		gameStart = 4;
+	}
+	if (input->isKeyDown(VK_SPACE) && gameStart == 4)
+	{
+		begin = clock();
+		gameStart = 1;		//set the game mode
+		start = time(0);	//start the timer
+		scorePoint = 0;		//reset the score
+		timer = 60;
+		elapsed_secs = 0;
+	}
+	if (input->isKeyDown(VK_2) && gameStart == 3)
+	{
+		gameStart = 5;
+	}
+	if (input->isKeyDown(VK_SPACE) && gameStart == 5)
 	{
 		begin = clock();
 		gameStart = 1;		//set the game mode
@@ -73,24 +142,18 @@ void flyGame::update()
 		elapsed_secs = 0;
 	}
 
-	arrow.setX(arrow.getX() + frameTime * ZENTT_SPEED);
-	if (arrow.getX() > GAME_WIDTH)               // if off screen right
+	background.setX(background.getX() + frameTime * ZENTT_SPEED);
+	if (background.getX() > GAME_WIDTH)               // if off screen right
 	{
-		arrow.setX((float)-arrow.getWidth());     // position off screen left
+		background.setX((float)-background.getWidth());     // position off screen left
 	}
 
-	arrows.setX(arrows.getX() + frameTime * ZENTT_SPEED);
-	if (arrows.getX() > GAME_WIDTH)               // if off screen right
+	backgrounds.setX(backgrounds.getX() + frameTime * ZENTT_SPEED);
+	if (backgrounds.getX() > GAME_WIDTH)               // if off screen right
 	{
-		arrows.setX((float)-arrows.getWidth());     // position off screen left
+		backgrounds.setX((float)-backgrounds.getWidth());     // position off screen left
 	}
 
-	plate.setX(plate.getX() + frameTime * ZENTT_SPEED);
-	if (plate.getX() > GAME_WIDTH)               // if off screen right
-	{
-		plate.setX((float)-plate.getWidth());     // position off screen left
-		plate.setVisible(false);
-	}
 	aTime = difftime(time(0), animationTime);		//when controls and animation played for a second, the controls are returned to the player and player model reset
 	if (aTime == 1)
 	{
@@ -120,36 +183,33 @@ void flyGame::render()
 	if (gameStart == 0)//render main menu
 	{
 		menu.draw();
-
 	}
 	if (gameStart == 1) // render level one sprites
 	{
+		background.draw();
+		backgrounds.draw();
 		dxFontMedium->setFontColor(graphicsNS::WHITE);
 		dxFontMedium->print(to_string(displayTimer()), 0, 20);
 	}
 	if (gameStart == 2) // render level two sprites
 	{
-
+		background.draw();
+		backgrounds.draw();
+		dxFontMedium->setFontColor(graphicsNS::WHITE);
+		dxFontMedium->print(to_string(displayTimer()), 0, 20);
 	}
-	// Print credits
-	if (gameStart == 3) // render credits screen
+	// Game Mode
+	if (gameStart == 3) // game mode screen
 	{
-
+		gamemode.draw();
 	}
-	//print game over screen at the end of game
 	if (gameStart == 4)
 	{
-
+		mode1.draw();
 	}
-	//Intro to the game
 	if (gameStart == 5)
 	{
-
-	}
-	//food list in the game
-	if (gameStart == 6)
-	{
-
+		mode2.draw();
 	}
 
 	graphics->spriteEnd();                  // end drawing sprites
@@ -162,7 +222,10 @@ void flyGame::render()
 void flyGame::releaseAll()
 {
 	backgroundTexture.onLostDevice();
-
+	backgroundsTexture.onLostDevice();
+	gamemodeTexture.onLostDevice();
+	mode1Texture.onLostDevice();
+	mode2Texture.onLostDevice();
 
 	Game::releaseAll();
 	return;
@@ -175,12 +238,14 @@ void flyGame::releaseAll()
 void flyGame::resetAll()
 {
 	backgroundTexture.onResetDevice();
-
+	backgroundsTexture.onResetDevice();
+	gamemodeTexture.onResetDevice();
+	mode1Texture.onResetDevice();
+	mode2Texture.onResetDevice();
 
 	Game::resetAll();
 	return;
 }
-
 
 int flyGame::displayTimer(){
 	if (timer - elapsed_secs > 0){

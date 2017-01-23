@@ -15,17 +15,13 @@
 #include <ctime>
 #include "textDX.h"
 using namespace std;
-#define VK_W 0x57
-#define VK_A 0x41
-#define VK_D 0x44
-#define VK_Q 0x51
-#define VK_E 0x45
+
 #define VK_0 0x30
 #define VK_1 0x31
 #define VK_2 0x32
-#define VK_3 0x33
-#define VK_4 0x34
-#define VK_5 0x35
+#define VK_RETURN 0x0D
+#define VK_SPACE 0x20
+
 //=============================================================================
 // Create game class
 //=============================================================================
@@ -34,19 +30,20 @@ class flyGame : public Game
 private:
 	// variables
 	TextureManager backgroundTexture;   // nebula texture
+	TextureManager backgroundsTexture;   // nebula texture
 	TextureManager menuTexture;   // menu texture
-	TextureManager arrowTexture;
-	TextureManager arrowsTexture;
-	TextureManager plateTexture;
+	TextureManager gamemodeTexture;
+	TextureManager mode1Texture;
+	TextureManager mode2Texture;
 
 	Image   background;                 // nebula image
+	Image   backgrounds;                 // nebula image
 	Image   menu;                 // menu image
-	Image	arrow;
-	Image	arrows;
-	Image	plate;
+	Image	gamemode;
+	Image	mode1;
+	Image	mode2;
 
 	//timer
-
 	int timer = 60;
 	int elapsed_secs = 0;
 
