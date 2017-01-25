@@ -32,8 +32,8 @@
 //                  Constants
 //-----------------------------------------------
 // window
-const char CLASS_NAME[] = "SushiMaster";
-const char GAME_TITLE[] = "SushiMaster";
+const char CLASS_NAME[] = "Roach One";
+const char GAME_TITLE[] = "Roach One";
 const bool FULLSCREEN = true;              // windowed or fullscreen
 const UINT GAME_WIDTH =  1280;               // width of game in pixels
 const UINT GAME_HEIGHT = 720;               // height of game in pixels
@@ -60,7 +60,7 @@ const char ROACHONE_MENU[] = "pictures\\RoachOne.jpg";  // Photo of Japan flag
 const char GAMEMODE_IMAGE[] = "pictures\\Intro&GameMode.jpg";
 const char MODE1_IMAGE[] = "pictures\\gamemode1.jpg";
 const char MODE2_IMAGE[] = "pictures\\gamemode2.jpg";
-const char PLAYER_IMAGE[] = "pictures\\roach.jpg";
+const char PLAYER_IMAGE[] = "pictures\\9286504-little-cockroach.jpg";
 const int  ZENTT_START_FRAME = 0;         // starting frame of ship animation
 const int  ZENTT_END_FRAME = 0;           // last frame of ship animation
 const float ZENTT_ANIMATION_DELAY = 0.2f; // time between frames of ship animation
