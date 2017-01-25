@@ -15,6 +15,7 @@
 #include <ctime>
 #include "textDX.h"
 #include "Player.h"
+#include "spiderWeb.h"
 using namespace std;
 
 #define VK_0 0x30
@@ -37,7 +38,7 @@ private:
 	TextureManager mode1Texture;
 	TextureManager mode2Texture;
 	TextureManager playerTexture;
-	Player player;
+	
 
 	Image   background;                 // nebula image
 	Image   backgrounds;                 // nebula image
@@ -46,7 +47,8 @@ private:
 	Image	mode1;
 	Image	mode2;
 	Image	playerImage;
-
+	Player player;
+	SpiderWeb spiderWeb;
 	//timer
 	int timer = 60;
 	int elapsed_secs = 0;
