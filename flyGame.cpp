@@ -155,25 +155,22 @@ void flyGame::update()
 
 	if (gameStart == 1 && input->isKeyDown(VK_SPACE))
 	{
-		player.setY(player.getY() - playerNS::SPEED * 1);
 		player.update(frameTime);
+		player.setY(player.getY() - playerNS::SPEED * 1);
+		player.setV(0);
 	}
 	else
-	{
-		player.setY(player.getY() - playerNS::SPEED * 1);
+	{	
 		player.drop(frameTime);
+		player.setY(player.getY() - playerNS::SPEED * 1);
 	}
 
-	background.setX(background.getX() + frameTime * ZENTT_SPEED);
-	if (background.getX() > GAME_WIDTH)               // if off screen right
+	background.setX(background.getX() - frameTime * ZENTT_SPEED);
+	backgrounds.setX(backgrounds.getX() - frameTime * ZENTT_SPEED);
+	if (backgrounds.getX() <= 0)
 	{
-		background.setX((float)-background.getWidth());     // position off screen left
-	}
-
-	backgrounds.setX(backgrounds.getX() + frameTime * ZENTT_SPEED);
-	if (backgrounds.getX() > GAME_WIDTH)               // if off screen right
-	{
-		backgrounds.setX((float)-backgrounds.getWidth());     // position off screen left
+		background.setX(GAME_WIDTH / GAME_WIDTH);
+		backgrounds.setX(GAME_WIDTH / 1);
 	}
 
 	aTime = difftime(time(0), animationTime);		//when controls and animation played for a second, the controls are returned to the player and player model reset

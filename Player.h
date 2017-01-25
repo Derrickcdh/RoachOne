@@ -12,7 +12,7 @@ namespace playerNS
 	const int HEIGHT = 60;                  // image height
 	const int X = GAME_WIDTH / 2 - WIDTH / 2;   // location on screen
 	const int Y = GAME_HEIGHT / 2 - HEIGHT / 2;
-	const float SPEED = 0.1;                // pixels per second
+	const float SPEED = 1;                // pixels per second
 	const float MIN_VY = 0;                 // minumum Y velocity
 	const float MASS = 1.0f;
 }
@@ -28,5 +28,7 @@ public:
 	void update(float frameTime);
 
 	void drop(float frameTime);
+	
+	void setV(float v);
 };
 #endif

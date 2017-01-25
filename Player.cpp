@@ -10,7 +10,6 @@ Player::Player() : Entity()
 	spriteData.y = playerNS::Y;
 	spriteData.rect.bottom = playerNS::HEIGHT;    // rectangle to select parts of an image
 	spriteData.rect.right = playerNS::WIDTH;
-	velocity.x = playerNS::SPEED;                 // velocity X
 	velocity.y = playerNS::SPEED;                 // velocity Y
 	frameDelay = 1;
 	startFrame = 0;                             // first frame of animation
@@ -40,8 +39,8 @@ void Player::update(float frameTime)
 	{
 		spriteData.y = 0;                           // position at top screen edge
 		//velocity.y = -velocity.y;                   // reverse Y direction
+		//velocity.y -= frameTime * GRAVITY;              // gravity
 	}
-
 }
 
 void Player::drop(float frameTime)
@@ -55,7 +54,14 @@ void Player::drop(float frameTime)
 	else if (spriteData.y < 0)                    // else if hit top screen edge
 	{
 		spriteData.y = 0;                           // position at top screen edge
-		//velocity.y = -velocity.y;                   // reverse Y direction
 	}
-	velocity.y -= frameTime * GRAVITY;              // gravity
+	//velocity.y = 0;
+	velocity.y += frameTime * GRAVITY;              // gravity
 }
+
+void Player::setV(float v)
+{
+	velocity.y = v;
+}
+
+
