@@ -1,9 +1,7 @@
 //  Module:             GamePlay Programming
-//  Assignment2:        Sushi Master
+//  Assignment2:        Roach One
 //  Student Name:       Choong Di Han Derrick, Andre hiu yuan xiang, ting hong yang
 //  Student Number:     S10161350, S10127976, S10159859
-
-
 
 #ifndef _FLYGAME_H             // prevent multiple definitions if this 
 #define _FLYGAME_H             // ..file is included in more than one place
@@ -38,7 +36,7 @@ private:
 	TextureManager mode1Texture;
 	TextureManager mode2Texture;
 	TextureManager playerTexture;
-	
+	TextureManager frogTexture;
 
 	Image   background;                 // nebula image
 	Image   backgrounds;                 // nebula image
@@ -47,8 +45,10 @@ private:
 	Image	mode1;
 	Image	mode2;
 	Image	playerImage;
+	Image	frog;
 	Player player;
 	SpiderWeb spiderWeb;
+
 	//timer
 	int timer = 60;
 	int elapsed_secs = 0;
@@ -66,7 +66,6 @@ public:
 	virtual ~flyGame();
 
 	// Initialize the game
-
 	void initialize(HWND hwnd);
 	void update();      // must override pure virtual from Game
 	void ai();          // "

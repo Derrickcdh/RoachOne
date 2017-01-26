@@ -1,9 +1,7 @@
 //  Module:             GamePlay Programming
-//  Assignment2:        Sushi Master
+//  Assignment2:        Roach One
 //  Student Name:       Choong Di Han Derrick, Andre hiu yuan xiang, ting hong yang
 //  Student Number:     S10161350, S10127976, S10159859
-
-
 
 #ifndef _IMAGE_H                // Prevent multiple definitions if this 
 #define _IMAGE_H                // file is included in more than one place
@@ -112,7 +110,6 @@ public:
 
 	// Return colorFilter.
 	virtual COLOR_ARGB getColorFilter() { return colorFilter; }
-
 
 	// Set X location.
 	virtual void setX(float newX)   { spriteData.x = newX; }

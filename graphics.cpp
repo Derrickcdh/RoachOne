@@ -1,7 +1,7 @@
-// Programming 2D Games
-// Copyright (c) 2011,2012 by:
-// Charles Kelly
-// Chapter 6 graphics.cpp v1.1
+//  Module:             GamePlay Programming
+//  Assignment2:        Roach One
+//  Student Name:       Choong Di Han Derrick, Andre hiu yuan xiang, ting hong yang
+//  Student Number:     S10161350, S10127976, S10159859
 
 #include "graphics.h"
 

@@ -1,20 +1,11 @@
 //  Module:             GamePlay Programming
-//  Assignment2:        Sushi Master
+//  Assignment2:        Roach One
 //  Student Name:       Choong Di Han Derrick, Andre hiu yuan xiang, ting hong yang
 //  Student Number:     S10161350, S10127976, S10159859
 
-
-
-#include<time.h> 
 #include "flyGame.h"
-#include <time.h>
-#include <Windows.h>
-#include <ctime>
 
 time_t start;		// timer
-int seconds;		//seconds for the timer
-time_t animationTime;//animation time for each animation that is executed
-int aTime;			//to take in the animation time
 int gameStart = 0;	//gameMode
 int scorePoint = 0; //player score
 
@@ -61,9 +52,11 @@ void flyGame::initialize(HWND hwnd)
 	if (!backgrounds.initialize(graphics, 0, 0, 0, &backgroundsTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing backgrounds"));
 
+	// fly texture
 	if (!playerTexture.initialize(graphics, PLAYER_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing player"));
 
+	// fly
 	if (!player.initialize(this, playerNS::WIDTH, playerNS::HEIGHT, 0, &playerTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing player"));
 
@@ -99,6 +92,14 @@ void flyGame::initialize(HWND hwnd)
 	if (!mode2.initialize(graphics, 0, 0, 0, &mode2Texture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing mode 2"));
 
+	// frog texture
+	if (!frogTexture.initialize(graphics, FROG_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing frog texture"));
+
+	// frog
+	if (!frog.initialize(graphics, FROG_WIDTH, FROG_HEIGHT, FROG_COLS, &frogTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing frog"));
+
 	// timer
 	if (dxFontMedium->initialize(graphics, 62, true, false, "Calibri") == false)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
@@ -112,6 +113,13 @@ void flyGame::initialize(HWND hwnd)
 
 	player.setX(100);
 	player.setY(GAME_HEIGHT - 100);
+
+	frog.setX(GAME_WIDTH / 10);
+	frog.setY(GAME_HEIGHT / 2);
+
+	frog.setFrames(FLY_START_FRAME, FLY_END_FRAME);   // animation frames 
+	frog.setCurrentFrame(FLY_START_FRAME);             // starting frame
+	frog.setFrameDelay(FLY_ANIMATION_DELAY);
 
 	return;
 }
@@ -146,7 +154,7 @@ void flyGame::update()
 	if (input->isKeyDown(VK_SPACE) && gameStart == 5)
 	{
 		begin = clock();
-		gameStart = 1;		//set the game mode
+		gameStart = 2;		//set the game mode
 		start = time(0);	//start the timer
 		scorePoint = 0;		//reset the score
 		timer = 60;
@@ -165,19 +173,16 @@ void flyGame::update()
 		player.setY(player.getY() - playerNS::SPEED * 1);
 	}
 
-	background.setX(background.getX() - frameTime * ZENTT_SPEED);
-	backgrounds.setX(backgrounds.getX() - frameTime * ZENTT_SPEED);
+	background.setX(background.getX() - frameTime * FLY_SPEED);
+	backgrounds.setX(backgrounds.getX() - frameTime * FLY_SPEED);
+
 	if (backgrounds.getX() <= 0)
 	{
 		background.setX(GAME_WIDTH / GAME_WIDTH);
 		backgrounds.setX(GAME_WIDTH / 1);
 	}
 
-	aTime = difftime(time(0), animationTime);		//when controls and animation played for a second, the controls are returned to the player and player model reset
-	if (aTime == 1)
-	{
-		
-	}
+	frog.update(frameTime);
 }
 
 //=============================================================================
@@ -208,6 +213,8 @@ void flyGame::render()
 		background.draw();
 		backgrounds.draw();
 		player.draw();
+		frog.draw();
+
 		dxFontMedium->setFontColor(graphicsNS::WHITE);
 		dxFontMedium->print(to_string(displayTimer()), 0, 20);
 	}
@@ -216,6 +223,8 @@ void flyGame::render()
 		background.draw();
 		backgrounds.draw();
 		player.draw();
+		frog.draw();
+
 		dxFontMedium->setFontColor(graphicsNS::WHITE);
 		dxFontMedium->print(to_string(displayTimer()), 0, 20);
 	}
@@ -247,6 +256,8 @@ void flyGame::releaseAll()
 	gamemodeTexture.onLostDevice();
 	mode1Texture.onLostDevice();
 	mode2Texture.onLostDevice();
+	playerTexture.onLostDevice();
+	frogTexture.onLostDevice();
 
 	Game::releaseAll();
 	return;
@@ -263,6 +274,8 @@ void flyGame::resetAll()
 	gamemodeTexture.onResetDevice();
 	mode1Texture.onResetDevice();
 	mode2Texture.onResetDevice();
+	playerTexture.onResetDevice();
+	frogTexture.onResetDevice();
 
 	Game::resetAll();
 	return;

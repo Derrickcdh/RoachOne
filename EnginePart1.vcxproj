@@ -95,8 +95,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="spiderWeb.cpp" />
-    <ClCompile Include="Spitball.cpp" />
-    <ClCompile Include="sushi.cpp" />
+    <ClCompile Include="spitBall.cpp" />
     <ClCompile Include="textDX.cpp" />
     <ClCompile Include="textureManager.cpp" />
     <ClCompile Include="winmain.cpp" />
@@ -112,8 +111,7 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="spiderWeb.h" />
-    <ClInclude Include="Spitball.h" />
-    <ClInclude Include="sushi.h" />
+    <ClInclude Include="spitBall.h" />
     <ClInclude Include="textDX.h" />
     <ClInclude Include="textureManager.h" />
   </ItemGroup>

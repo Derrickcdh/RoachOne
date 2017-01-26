@@ -1,4 +1,10 @@
+//  Module:             GamePlay Programming
+//  Assignment2:        Roach One
+//  Student Name:       Choong Di Han Derrick, Andre hiu yuan xiang, ting hong yang
+//  Student Number:     S10161350, S10127976, S10159859
+
 #include "Player.h"
+
 //=============================================================================
 // default constructor
 //=============================================================================
@@ -29,7 +35,6 @@ void Player::update(float frameTime)
 {
 	Entity::update(frameTime);
 	spriteData.y -= frameTime * velocity.y;         // move along Y
-
 	
 	if (spriteData.y > GAME_HEIGHT - playerNS::HEIGHT) // if hit bottom screen edge
 	{

@@ -1,3 +1,8 @@
+//  Module:             GamePlay Programming
+//  Assignment2:        Roach One
+//  Student Name:       Choong Di Han Derrick, Andre hiu yuan xiang, ting hong yang
+//  Student Number:     S10161350, S10127976, S10159859
+
 #include "spiderWeb.h"
 
 //=============================================================================
@@ -21,7 +26,6 @@ SpiderWeb::SpiderWeb() : Entity()
 	mass = SpiderWebNS::MASS;
 }
 
-
 //=============================================================================
 // update
 // typically called once per frame
@@ -30,5 +34,5 @@ SpiderWeb::SpiderWeb() : Entity()
 void SpiderWeb::update(float frameTime)
 {
 	Entity::update(frameTime);
-	spriteData.x = (spriteData.x - frameTime * ZENTT_SPEED);
+	spriteData.x = (spriteData.x - frameTime * FLY_SPEED);
 }

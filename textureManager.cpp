@@ -1,5 +1,5 @@
 //  Module:             GamePlay Programming
-//  Assignment2:        Sushi Master
+//  Assignment2:        Roach One
 //  Student Name:       Choong Di Han Derrick, Andre hiu yuan xiang, ting hong yang
 //  Student Number:     S10161350, S10127976, S10159859
 
@@ -15,7 +15,6 @@ TextureManager::TextureManager()
 	graphics = NULL;
 	initialized = false;            // set true when successfully initialized
 }
-
 
 // destructor
 TextureManager::~TextureManager()

@@ -1,16 +1,13 @@
 //  Module:             GamePlay Programming
-//  Assignment2:        Sushi Master
+//  Assignment2:        Roach One
 //  Student Name:       Choong Di Han Derrick, Andre hiu yuan xiang, ting hong yang
 //  Student Number:     S10161350, S10127976, S10159859
-
-
 
 #ifndef _CONSTANTS_H            // prevent multiple definitions if this 
 #define _CONSTANTS_H            // ..file is included in more than one place
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
-#define VK_0 0x30
 
 //-----------------------------------------------
 // Useful macros
@@ -27,14 +24,13 @@
 #define SAFE_ON_RESET_DEVICE(ptr)   { if(ptr) { ptr->onResetDevice(); } }
 #define TRANSCOLOR  SETCOLOR_ARGB(0,255,0,255)  // transparent color (magenta)
 
-
 //-----------------------------------------------
 //                  Constants
 //-----------------------------------------------
 // window
 const char CLASS_NAME[] = "Roach One";
 const char GAME_TITLE[] = "Roach One";
-const bool FULLSCREEN = true;              // windowed or fullscreen
+const bool FULLSCREEN = false;              // windowed or fullscreen
 const UINT GAME_WIDTH =  1280;               // width of game in pixels
 const UINT GAME_HEIGHT = 720;               // height of game in pixels
  
@@ -60,21 +56,29 @@ const char ROACHONE_MENU[] = "pictures\\RoachOne.jpg";
 const char GAMEMODE_IMAGE[] = "pictures\\Intro&GameMode.jpg";
 const char MODE1_IMAGE[] = "pictures\\gamemode1.jpg";
 const char MODE2_IMAGE[] = "pictures\\gamemode2.jpg";
-const char PLAYER_IMAGE[] = "pictures\\9286504-little-cockroach.jpg";
-const int  ZENTT_START_FRAME = 0;         // starting frame of ship animation
-const int  ZENTT_END_FRAME = 0;           // last frame of ship animation
-const float ZENTT_ANIMATION_DELAY = 0.2f; // time between frames of ship animation
-const int  ZENTT_COLS = 2;                // ship texture has 2 columns
-const int  ZENTT_WIDTH = 300;              // width of ship image
-const int  ZENTT_HEIGHT = 300;             // height of ship image
+const char PLAYER_IMAGE[] = "pictures\\cockroach.jpg";
+const char FROG_IMAGE[] = "pictures\\frog.png";
+
+// Player
+const int  FLY_START_FRAME = 0;         // starting frame of ship animation
+const int  FLY_END_FRAME = 5;           // last frame of ship animation
+const float FLY_ANIMATION_DELAY = 0.5f; // time between frames of ship animation
+const int  FLY_COLS = 2;                // ship texture has 2 columns
+const int  FLY_WIDTH = 300;              // width of ship image
+const int  FLY_HEIGHT = 300;             // height of ship image
 const float ROTATION_RATE = 30.0f;             // degrees per second
 const float SCALE_RATE = 0.42f;                  // % change per second
-const float ZENTT_SPEED = 100.0f;                // pixels per second
-const float ZENTT_SCALE = 1.5f;                  // starting ship scale
+const float FLY_SPEED = 100.0f;                // pixels per second
+const float FLY_SCALE = 1.5f;                  // starting ship scale
 
 //Score and start A
 const int SCORE_COLS = 1;
 const int SCORE_WIDTH = 65;
 const int SCORE_HEIGHT = 65;
+
+//Frog
+const int FROG_COLS = 5;
+const int FROG_WIDTH = 280;
+const int FROG_HEIGHT = 130;
 
 #endif

@@ -1,8 +1,7 @@
-
-//  Module:             Gameplay Programming
-//  Assignment1:		Hailo
-//  Student Name:       Ngm Hui Min, Lois	| Jessica Tan Hwee Ching	| Pang Jin Xiang
-//  Student Number:     S10158786C			| S10156827G				| S10157119D
+//  Module:             GamePlay Programming
+//  Assignment2:        Roach One
+//  Student Name:       Choong Di Han Derrick, Andre hiu yuan xiang, ting hong yang
+//  Student Number:     S10161350, S10127976, S10159859
 
 #include "textDX.h"
 
