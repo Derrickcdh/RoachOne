@@ -76,7 +76,7 @@ public:
 	void resetAll();
 	void printScore(int score);
 	void printFilled();
-	int displayTimer();
+	float displayTimer();
 };
 
 #endif

@@ -268,12 +268,6 @@ void flyGame::resetAll()
 	return;
 }
 
-int flyGame::displayTimer(){
-	if (timer - elapsed_secs > 0){
-		end = clock();
-		elapsed_secs = int(end - begin) / CLOCKS_PER_SEC;
-		return timer - elapsed_secs;
-	}
-	else
-		return 0;
+float flyGame::displayTimer(){
+	return frameTime;
 }

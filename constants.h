@@ -56,7 +56,7 @@ const UCHAR ENTER_KEY    = VK_RETURN;   // Enter key
 // graphic images
 const char BACKGROUND_IMAGE[] = "pictures\\background.png";
 const char BACKGROUNDS_IMAGE[] = "pictures\\background.png";
-const char ROACHONE_MENU[] = "pictures\\RoachOne.jpg";  // Photo of Japan flag
+const char ROACHONE_MENU[] = "pictures\\RoachOne.jpg";
 const char GAMEMODE_IMAGE[] = "pictures\\Intro&GameMode.jpg";
 const char MODE1_IMAGE[] = "pictures\\gamemode1.jpg";
 const char MODE2_IMAGE[] = "pictures\\gamemode2.jpg";
