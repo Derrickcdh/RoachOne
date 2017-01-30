@@ -14,6 +14,8 @@
 #include "textDX.h"
 #include "Player.h"
 #include "spiderWeb.h"
+#include "spitBall.h"
+
 using namespace std;
 
 #define VK_0 0x30
@@ -37,7 +39,7 @@ private:
 	TextureManager mode2Texture;
 	TextureManager playerTexture;
 	TextureManager frogTexture;
-
+	TextureManager spitballTexture;
 	Image   background;                 // nebula image
 	Image   backgrounds;                 // nebula image
 	Image   menu;                 // menu image
@@ -48,6 +50,7 @@ private:
 	Image	frog;
 	Player player;
 	SpiderWeb spiderWeb;
+	spitBall spitball[10];
 
 	//timer
 	int timer = 60;

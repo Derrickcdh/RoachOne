@@ -58,6 +58,7 @@ const char MODE1_IMAGE[] = "pictures\\gamemode1.jpg";
 const char MODE2_IMAGE[] = "pictures\\gamemode2.jpg";
 const char PLAYER_IMAGE[] = "pictures\\cockroach.jpg";
 const char FROG_IMAGE[] = "pictures\\frog.png";
+const char SPITBALL_IMAGE[] = "pictures\\Spitball.png";
 
 // Player
 const int  FLY_START_FRAME = 0;         // starting frame of ship animation

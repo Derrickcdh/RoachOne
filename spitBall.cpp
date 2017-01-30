@@ -4,6 +4,7 @@
 //  Student Number:     S10161350, S10127976, S10159859
 
 #include "Spitball.h"
+#include <stdlib.h>     /* srand, rand */
 
 spitBall::spitBall() : Entity()
 {
@@ -13,7 +14,7 @@ spriteData.x = spitballNS::X;                   // location on screen
 spriteData.y = spitballNS::Y;
 spriteData.rect.bottom = spitballNS::HEIGHT;    // rectangle to select parts of an image
 spriteData.rect.right = spitballNS::WIDTH;
-velocity.x = 0;                             // velocity X
+velocity.x = 150;                             // velocity X
 velocity.y = 0;                             // velocity Y
 radius = spitballNS::WIDTH / 2.0;
 mass = spitballNS::MASS;
@@ -36,5 +37,11 @@ void spitBall::draw()
 void spitBall::update(float frameTime)
 {
 	Entity::update(frameTime);
-	spriteData.x += frameTime * velocity.x;         // move ship along X
+	spriteData.x -= frameTime * velocity.x;         // move ship along X
+	
+	/*if (spriteData.x < (-100));
+	{
+		spriteData.x = GAME_WIDTH;
+		spriteData.y= (rand() % (GAME_HEIGHT)+1);
+	}*/
 }

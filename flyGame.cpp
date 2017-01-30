@@ -4,6 +4,7 @@
 //  Student Number:     S10161350, S10127976, S10159859
 
 #include "flyGame.h"
+#include <stdlib.h>     /* srand, rand */
 
 time_t start;		// timer
 int gameStart = 0;	//gameMode
@@ -108,19 +109,36 @@ void flyGame::initialize(HWND hwnd)
 	if (dxFontMedium->initialize(graphics, 62, true, false, "Calibri") == false)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
 
-	background.setX(GAME_WIDTH / 700);
+	//spitball texture
+	if (!spitballTexture.initialize(graphics, SPITBALL_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing spitballTexture"));
+	float test = sizeof(spitball) / sizeof(spitBall);
+	for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
+	{
+		// spitball
+		if (!spitball[i].initialize(this, spitballNS::WIDTH, spitballNS::HEIGHT, 0, &spitballTexture))
+			throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing spitball"));
+	}
+	background.setX(GAME_WIDTH / GAME_WIDTH);
 	backgrounds.setX(GAME_WIDTH / 1);
 
 	player.setX(100);
 	player.setY(GAME_HEIGHT - 100);
 
-	frog.setX(GAME_WIDTH / 10);
+	frog.setX(GAME_WIDTH / 5);
 	frog.setY(GAME_HEIGHT / 2);
 
 	frog.setFrames(FLY_START_FRAME, FLY_END_FRAME);   // animation frames 
 	frog.setCurrentFrame(FLY_START_FRAME);             // starting frame
 	frog.setFrameDelay(FLY_ANIMATION_DELAY);
 
+	for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
+	{
+		spitball[i].setX(GAME_WIDTH);
+		spitball[i].setY(rand() % (GAME_HEIGHT)+1);
+		//spitball.setY(GAME_HEIGHT/2);
+		spitball[i].setScale(0.5);
+	}
 	return;
 }
 
@@ -182,7 +200,20 @@ void flyGame::update()
 		backgrounds.setX(GAME_WIDTH / 1);
 	}
 
+	
+
 	frog.update(frameTime);
+	for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
+	{
+		spitball[i].update(frameTime);
+
+		if (spitball[i].getX() < (-100))
+		{
+			spitball[i].setX(GAME_WIDTH);
+			spitball[i].setY(rand() % (GAME_HEIGHT)+1);
+		}
+	}
+	//spitball.update(frameTime);
 }
 
 //=============================================================================
@@ -214,7 +245,10 @@ void flyGame::render()
 		backgrounds.draw();
 		player.draw();
 		frog.draw();
-
+		for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
+		{
+			spitball[i].draw();
+		}
 		dxFontMedium->setFontColor(graphicsNS::WHITE);
 		dxFontMedium->print(to_string(displayTimer()), 0, 20);
 	}
@@ -224,7 +258,10 @@ void flyGame::render()
 		backgrounds.draw();
 		player.draw();
 		frog.draw();
-
+		for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
+		{
+			spitball[i].draw();
+		}
 		dxFontMedium->setFontColor(graphicsNS::WHITE);
 		dxFontMedium->print(to_string(displayTimer()), 0, 20);
 	}
@@ -258,7 +295,7 @@ void flyGame::releaseAll()
 	mode2Texture.onLostDevice();
 	playerTexture.onLostDevice();
 	frogTexture.onLostDevice();
-
+	spitballTexture.onLostDevice();
 	Game::releaseAll();
 	return;
 }
@@ -276,7 +313,7 @@ void flyGame::resetAll()
 	mode2Texture.onResetDevice();
 	playerTexture.onResetDevice();
 	frogTexture.onResetDevice();
-
+	spitballTexture.onResetDevice();
 	Game::resetAll();
 	return;
 }
