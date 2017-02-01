@@ -17,13 +17,15 @@ Player::Player() : Entity()
 	spriteData.rect.bottom = playerNS::HEIGHT;    // rectangle to select parts of an image
 	spriteData.rect.right = playerNS::WIDTH;
 	velocity.y = playerNS::SPEED;                 // velocity Y
-	frameDelay = 1;
-	startFrame = 0;                             // first frame of animation
-	endFrame = 0;                           // last frame of animation
+	frameDelay = playerNS::PLAYER_ANIMATION_DELAY;
+	startFrame = playerNS::PLAYER_START_FRAME;                             // first frame of animation
+	endFrame = playerNS::PLAYER_END_FRAME;
 	currentFrame = startFrame;
 	radius = playerNS::WIDTH / 2.0;
 	collisionType = entityNS::BOX;
 	mass = playerNS::MASS;
+	dying = false;
+	flying = false;
 }
 
 //=============================================================================
@@ -67,6 +69,16 @@ void Player::drop(float frameTime)
 void Player::setV(float v)
 {
 	velocity.y = v;
+}
+
+void Player::setflying(bool state)
+{
+	flying = state;
+}
+
+void Player::damage(WEAPON weapon)
+{
+	dying = true;
 }
 
 

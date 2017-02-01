@@ -22,7 +22,7 @@ SpiderWeb::SpiderWeb() : Entity()
 	endFrame = 0;                           // last frame of animation
 	currentFrame = startFrame;
 	radius = SpiderWebNS::WIDTH / 2.0;
-	collisionType = entityNS::BOX;
+	collisionType = entityNS::CIRCLE;
 	mass = SpiderWebNS::MASS;
 }
 
@@ -31,6 +31,10 @@ SpiderWeb::SpiderWeb() : Entity()
 // typically called once per frame
 // frameTime is used to regulate the speed of movement and animation
 //=============================================================================
+//bool SpiderWeb::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM)
+//{
+//	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
+//}
 void SpiderWeb::update(float frameTime)
 {
 	Entity::update(frameTime);

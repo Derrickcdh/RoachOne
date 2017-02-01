@@ -50,7 +50,7 @@ private:
 	Image	frog;
 	Player player;
 	SpiderWeb spiderWeb;
-	spitBall spitball[10];
+	spitBall spitball[6];
 
 	//timer
 	int timer = 60;
@@ -71,6 +71,7 @@ public:
 	// Initialize the game
 	void initialize(HWND hwnd);
 	void update();      // must override pure virtual from Game
+	void updateObjectMovement();
 	void ai();          // "
 	void collisions();  // "
 	void render();      // "

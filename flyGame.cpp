@@ -58,7 +58,7 @@ void flyGame::initialize(HWND hwnd)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing player"));
 
 	// fly
-	if (!player.initialize(this, playerNS::WIDTH, playerNS::HEIGHT, 0, &playerTexture))
+	if (!player.initialize(this, playerNS::WIDTH, playerNS::HEIGHT, playerNS::TEXTURE_COLS, &playerTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing player"));
 
 	// roach one menu texture
@@ -112,32 +112,40 @@ void flyGame::initialize(HWND hwnd)
 	//spitball texture
 	if (!spitballTexture.initialize(graphics, SPITBALL_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing spitballTexture"));
+
 	float test = sizeof(spitball) / sizeof(spitBall);
 	for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
 	{
 		// spitball
 		if (!spitball[i].initialize(this, spitballNS::WIDTH, spitballNS::HEIGHT, 0, &spitballTexture))
 			throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing spitball"));
+		
 	}
 	background.setX(GAME_WIDTH / GAME_WIDTH);
 	backgrounds.setX(GAME_WIDTH / 1);
 
 	player.setX(100);
 	player.setY(GAME_HEIGHT - 100);
+	player.setFrames(playerNS::PLAYER_START_FRAME, playerNS::PLAYER_END_FRAME);
+	player.setCurrentFrame(playerNS::PLAYER_START_FRAME);
 
-	frog.setX(GAME_WIDTH / 5);
-	frog.setY(GAME_HEIGHT / 2);
+	//frog.setX(GAME_WIDTH / 5);
+	//frog.setY(GAME_HEIGHT / 2);
 
-	frog.setFrames(FLY_START_FRAME, FLY_END_FRAME);   // animation frames 
-	frog.setCurrentFrame(FLY_START_FRAME);             // starting frame
-	frog.setFrameDelay(FLY_ANIMATION_DELAY);
+	//frog.setFrames(FLY_START_FRAME, FLY_END_FRAME);   // animation frames 
+	//frog.setCurrentFrame(FLY_START_FRAME);             // starting frame
+	//frog.setFrameDelay(FLY_ANIMATION_DELAY);
 
 	for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
 	{
 		spitball[i].setX(GAME_WIDTH);
-		spitball[i].setY(rand() % (GAME_HEIGHT)+1);
+		spitball[i].setY((rand() % (GAME_HEIGHT/10)+1)*10);
 		//spitball.setY(GAME_HEIGHT/2);
 		spitball[i].setScale(0.5);
+
+		int ast = rand() % (rand() % 10 * 200);
+		spitball[i].setVelocity(VECTOR2(ast, -ast));
+		//(VECTOR2(spitballNS::SPEED, -spitballNS::SPEED))
 	}
 	return;
 }
@@ -163,7 +171,8 @@ void flyGame::update()
 		scorePoint = 0;		//reset the score
 		timer = 60;
 		elapsed_secs = 0;
-
+		player.setActive(true);
+		player.setVisible(true);
 	}
 	if (input->isKeyDown(VK_2) && gameStart == 3)
 	{
@@ -178,19 +187,27 @@ void flyGame::update()
 		timer = 60;
 		elapsed_secs = 0;
 	}
-
-	if (gameStart == 1 && input->isKeyDown(VK_SPACE))
+	if (gameStart == 1)
 	{
-		player.update(frameTime);
-		player.setY(player.getY() - playerNS::SPEED * 1);
-		player.setV(0);
+		if (gameStart == 1 && input->isKeyDown(VK_SPACE))
+		{
+			player.update(frameTime);
+			player.setY(player.getY() - playerNS::SPEED * 1);
+			player.setV(0);
+		}
+		else
+		{
+			player.drop(frameTime);
+			player.setY(player.getY() - playerNS::SPEED * 1);
+		}
+		updateObjectMovement();
 	}
-	else
-	{	
-		player.drop(frameTime);
-		player.setY(player.getY() - playerNS::SPEED * 1);
-	}
+	
+	//spitball.update(frameTime);
+}
 
+void flyGame::updateObjectMovement()
+{
 	background.setX(background.getX() - frameTime * FLY_SPEED);
 	backgrounds.setX(backgrounds.getX() - frameTime * FLY_SPEED);
 
@@ -199,8 +216,6 @@ void flyGame::update()
 		background.setX(GAME_WIDTH / GAME_WIDTH);
 		backgrounds.setX(GAME_WIDTH / 1);
 	}
-
-	
 
 	frog.update(frameTime);
 	for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
@@ -213,9 +228,7 @@ void flyGame::update()
 			spitball[i].setY(rand() % (GAME_HEIGHT)+1);
 		}
 	}
-	//spitball.update(frameTime);
 }
-
 //=============================================================================
 // Artificial Intelligence
 //=============================================================================
@@ -226,7 +239,19 @@ void flyGame::ai()
 // Handle collisions
 //=============================================================================
 void flyGame::collisions()
-{}
+{
+	VECTOR2 collisionVector;
+	for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
+	{
+		if (player.collidesWith(spitball[i], collisionVector))
+		{
+			player.damage(SPITBALL);
+			player.setActive(false);
+			player.setVisible(false);
+			gameStart = 5;
+		}
+	}
+}
 
 //=============================================================================
 // Render game items
@@ -251,6 +276,7 @@ void flyGame::render()
 		}
 		dxFontMedium->setFontColor(graphicsNS::WHITE);
 		dxFontMedium->print(to_string(displayTimer()), 0, 20);
+		//dxFontMedium->print(to_string(displayTimer()), 0, 120);
 	}
 	if (gameStart == 2) // render level two sprites
 	{

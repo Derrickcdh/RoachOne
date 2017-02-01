@@ -11,8 +11,8 @@
 
 namespace spitballNS
 {
-const int WIDTH = 0;
-const int HEIGHT = 0;
+const int WIDTH = 150;
+const int HEIGHT = 150;
 const int X = 0;   // location on screen
 const int Y = 0;
 const float ROTATION_RATE = 0; // radians per second

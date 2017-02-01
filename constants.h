@@ -30,7 +30,7 @@
 // window
 const char CLASS_NAME[] = "Roach One";
 const char GAME_TITLE[] = "Roach One";
-const bool FULLSCREEN = false;              // windowed or fullscreen
+const bool FULLSCREEN = true;              // windowed or fullscreen
 const UINT GAME_WIDTH =  1280;               // width of game in pixels
 const UINT GAME_HEIGHT = 720;               // height of game in pixels
  
@@ -56,7 +56,7 @@ const char ROACHONE_MENU[] = "pictures\\RoachOne.jpg";
 const char GAMEMODE_IMAGE[] = "pictures\\Intro&GameMode.jpg";
 const char MODE1_IMAGE[] = "pictures\\gamemode1.jpg";
 const char MODE2_IMAGE[] = "pictures\\gamemode2.jpg";
-const char PLAYER_IMAGE[] = "pictures\\cockroach.jpg";
+const char PLAYER_IMAGE[] = "pictures\\cockroach.png";
 const char FROG_IMAGE[] = "pictures\\frog.png";
 const char SPITBALL_IMAGE[] = "pictures\\Spitball.png";
 
@@ -82,4 +82,6 @@ const int FROG_COLS = 5;
 const int FROG_WIDTH = 280;
 const int FROG_HEIGHT = 130;
 
+// weapon types
+enum WEAPON { TORPEDO, SHIP, SPITBALL };
 #endif
