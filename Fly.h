@@ -13,12 +13,12 @@ namespace FlyNS
 	const float ROTATION_RATE = 0; // radians per second
 	const float SPEED = 0;                  // 0 pixels per second
 	const float MASS = 100.0f;              // mass
-
 }
 class Fly : public Entity
 {
 private:
 	boolean active = true;
+	int amplitude = 5;
 public:
 	// constructor
 	Fly();

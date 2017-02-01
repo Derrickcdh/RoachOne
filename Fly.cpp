@@ -30,5 +30,5 @@ void Fly::update(float frameTime)
 {
 	Entity::update(frameTime);
 	spriteData.x -= frameTime * velocity.x;         // move ship along X
-	spriteData.y += (sin(spriteData.x / 10) * 5) / 5;
+	spriteData.y += (sin(spriteData.x / 10) * amplitude) / 5;
 }
