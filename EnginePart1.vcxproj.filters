@@ -51,6 +51,9 @@
     <ClCompile Include="spiderWeb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Fly.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h">
@@ -90,6 +93,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="spiderWeb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Fly.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

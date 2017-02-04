@@ -9,6 +9,8 @@
 time_t start;		// timer
 int gameStart = 0;	//gameMode
 int scorePoint = 0; //player score
+int objectPoints;
+int webPoints;
 
 //double seconds;
 //=============================================================================
@@ -121,6 +123,24 @@ void flyGame::initialize(HWND hwnd)
 			throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing spitball"));
 		
 	}
+
+	//spitball texture
+	if (!flyTexture.initialize(graphics, FLY_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing flyTexture"));
+
+	if (!fly.initialize(this, FlyNS::WIDTH, FlyNS::HEIGHT, 0, &flyTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing spiderWeb"));
+
+
+	//spiderweb texture
+	if (!spiderWebTexture.initialize(graphics, SPIDERWEB_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing spitballTexture"));
+
+	// spiderWeb
+	if (!spiderWeb.initialize(this, SpiderWebNS::WIDTH, SpiderWebNS::HEIGHT, 0, &spiderWebTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing spiderWeb"));
+
+
 	background.setX(GAME_WIDTH / GAME_WIDTH);
 	backgrounds.setX(GAME_WIDTH / 1);
 
@@ -143,10 +163,15 @@ void flyGame::initialize(HWND hwnd)
 		//spitball.setY(GAME_HEIGHT/2);
 		spitball[i].setScale(0.5);
 
-		int ast = rand() % (rand() % 10 * 200);
+		int ast = rand() % 5+200;
 		spitball[i].setVelocity(VECTOR2(ast, -ast));
 		//(VECTOR2(spitballNS::SPEED, -spitballNS::SPEED))
+		spitball[i].setVisible(false);
 	}
+	spiderWeb.setVisible(false);
+	spiderWeb.setY((rand() % (GAME_HEIGHT / 10) + 1) * 10);
+	fly.setY((rand() % (GAME_HEIGHT / 10) + 1) * 10);
+	fly.setX(GAME_WIDTH);
 	return;
 }
 
@@ -157,7 +182,7 @@ void flyGame::update()
 {
 	if (input->isKeyDown(VK_RETURN) && gameStart == 0)            // Game start level 1, 
 	{
-		gameStart = 3;		//set the game mode
+		gameStart = 4;		//set the game mode
 	}
 	if (input->isKeyDown(VK_1) && gameStart == 3)
 	{
@@ -169,23 +194,14 @@ void flyGame::update()
 		gameStart = 1;		//set the game mode
 		start = time(0);	//start the timer
 		scorePoint = 0;		//reset the score
-		timer = 60;
+		timer = 0;
 		elapsed_secs = 0;
 		player.setActive(true);
 		player.setVisible(true);
-	}
-	if (input->isKeyDown(VK_2) && gameStart == 3)
-	{
-		gameStart = 5;
-	}
-	if (input->isKeyDown(VK_SPACE) && gameStart == 5)
-	{
-		begin = clock();
-		gameStart = 2;		//set the game mode
-		start = time(0);	//start the timer
-		scorePoint = 0;		//reset the score
-		timer = 60;
-		elapsed_secs = 0;
+		resetObjects();
+		player.setY(GAME_HEIGHT - 100);
+		objectPoints = 10;
+		selectObject();
 	}
 	if (gameStart == 1)
 	{
@@ -201,23 +217,72 @@ void flyGame::update()
 			player.setY(player.getY() - playerNS::SPEED * 1);
 		}
 		updateObjectMovement();
+		
 	}
 	
 	//spitball.update(frameTime);
+}
+
+void flyGame::selectObject()
+{
+	if (objectPoints >= 1)
+	{
+		//int randomCheck = rand() % 2 + 1;
+
+		if (spiderWeb.getVisible()==false)
+		{
+			spiderWeb.setVisible(true);
+			spiderWeb.setX(GAME_WIDTH);
+			spiderWeb.setY((rand() % (GAME_HEIGHT / 10) + 1) * 10);
+		}
+		
+	}
+	
+	if (objectPoints >= 3)
+	{
+		for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
+		{
+			if (spitball[i].getVisible()==false)
+			{
+				if (objectPoints < 3)
+				{
+					break;
+				}
+				spitball[i].setVisible(true);
+				spitball[i].setX(GAME_WIDTH);
+				objectPoints -= 3;
+			}
+		}
+	}
+	
 }
 
 void flyGame::updateObjectMovement()
 {
 	background.setX(background.getX() - frameTime * FLY_SPEED);
 	backgrounds.setX(backgrounds.getX() - frameTime * FLY_SPEED);
-
+	
 	if (backgrounds.getX() <= 0)
 	{
 		background.setX(GAME_WIDTH / GAME_WIDTH);
 		backgrounds.setX(GAME_WIDTH / 1);
+		objectPoints += 1;
+		selectObject();
+	}
+	if (spiderWeb.getX() < -300)
+	{
+		spiderWeb.setVisible(false);
+	}
+	frog.update(frameTime);
+	spiderWeb.update(frameTime);
+	fly.update(frameTime);
+
+	if (fly.getX() <= -150)
+	{
+		fly.setX(GAME_WIDTH);
+		fly.setY(rand() % (GAME_HEIGHT-100)+50);
 	}
 
-	frog.update(frameTime);
 	for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
 	{
 		spitball[i].update(frameTime);
@@ -226,7 +291,27 @@ void flyGame::updateObjectMovement()
 		{
 			spitball[i].setX(GAME_WIDTH);
 			spitball[i].setY(rand() % (GAME_HEIGHT)+1);
+			if (spitball[i].getY() < 5)
+			{
+				spitball[i].setY(spitball[i].getY() + 10);
+			}
+			if (spitball[i].getY() > GAME_HEIGHT - 5)
+			{
+				spitball[i].setY(spitball[i].getY() - 10);
+			}
+			//spitball[i].setVisible(false);
+			//spitPoints += 3;
 		}
+	}
+}
+
+void flyGame::resetObjects()
+{
+	for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
+	{
+		spitball[i].update(frameTime);
+		spitball[i].setX(GAME_WIDTH);
+		spitball[i].setY(rand() % (GAME_HEIGHT)+1);
 	}
 }
 //=============================================================================
@@ -243,14 +328,29 @@ void flyGame::collisions()
 	VECTOR2 collisionVector;
 	for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
 	{
-		if (player.collidesWith(spitball[i], collisionVector))
+		if (player.collidesWith(spitball[i], collisionVector) && spitball[i].getVisible()==true)
 		{
-			player.damage(SPITBALL);
-			player.setActive(false);
-			player.setVisible(false);
-			gameStart = 5;
+			gameOver();
 		}
 	}
+	if (player.collidesWith(spiderWeb, collisionVector) && spiderWeb.getVisible() == true)
+	{
+		gameOver();
+	}
+	if (player.collidesWith(fly, collisionVector) && fly.getVisible() == true)
+	{
+		gameOver();
+	}
+
+}
+
+void flyGame::gameOver()
+{
+	player.damage(SPITBALL);
+	player.setActive(false);
+	player.setVisible(false);
+	gameStart = 0;
+	objectPoints = 0;
 }
 
 //=============================================================================
@@ -269,7 +369,9 @@ void flyGame::render()
 		background.draw();
 		backgrounds.draw();
 		player.draw();
-		frog.draw();
+		//frog.draw();
+		spiderWeb.draw();
+		fly.draw();
 		for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
 		{
 			spitball[i].draw();
@@ -277,19 +379,6 @@ void flyGame::render()
 		dxFontMedium->setFontColor(graphicsNS::WHITE);
 		dxFontMedium->print(to_string(displayTimer()), 0, 20);
 		//dxFontMedium->print(to_string(displayTimer()), 0, 120);
-	}
-	if (gameStart == 2) // render level two sprites
-	{
-		background.draw();
-		backgrounds.draw();
-		player.draw();
-		frog.draw();
-		for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
-		{
-			spitball[i].draw();
-		}
-		dxFontMedium->setFontColor(graphicsNS::WHITE);
-		dxFontMedium->print(to_string(displayTimer()), 0, 20);
 	}
 	// Game Mode
 	if (gameStart == 3) // game mode screen
@@ -299,10 +388,6 @@ void flyGame::render()
 	if (gameStart == 4)
 	{
 		mode1.draw();
-	}
-	if (gameStart == 5)
-	{
-		mode2.draw();
 	}
 
 	graphics->spriteEnd();                  // end drawing sprites
@@ -322,6 +407,7 @@ void flyGame::releaseAll()
 	playerTexture.onLostDevice();
 	frogTexture.onLostDevice();
 	spitballTexture.onLostDevice();
+	flyTexture.onLostDevice();
 	Game::releaseAll();
 	return;
 }
@@ -340,6 +426,7 @@ void flyGame::resetAll()
 	playerTexture.onResetDevice();
 	frogTexture.onResetDevice();
 	spitballTexture.onResetDevice();
+	flyTexture.onResetDevice();
 	Game::resetAll();
 	return;
 }

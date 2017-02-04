@@ -88,6 +88,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="entity.cpp" />
+    <ClCompile Include="Fly.cpp" />
     <ClCompile Include="flyGame.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="graphics.cpp" />
@@ -103,6 +104,7 @@
   <ItemGroup>
     <ClInclude Include="constants.h" />
     <ClInclude Include="entity.h" />
+    <ClInclude Include="Fly.h" />
     <ClInclude Include="flyGame.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameError.h" />
