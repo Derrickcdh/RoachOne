@@ -254,7 +254,12 @@ void flyGame::selectObject()
 			}
 		}
 	}
-	
+	if (fly.getVisible() == false)
+	{
+		fly.setVisible(true);
+		fly.setX(GAME_WIDTH);
+		fly.setY((rand() % (GAME_HEIGHT / 10) + 1) * 10);
+	}
 }
 
 void flyGame::updateObjectMovement()
@@ -351,6 +356,12 @@ void flyGame::gameOver()
 	player.setVisible(false);
 	gameStart = 0;
 	objectPoints = 0;
+	spiderWeb.setVisible(false);
+	fly.setVisible(false);
+	for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
+	{
+		spitball[i].setVisible(false);
+	}
 }
 
 //=============================================================================
