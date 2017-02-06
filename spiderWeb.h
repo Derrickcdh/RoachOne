@@ -13,8 +13,8 @@
 
 namespace SpiderWebNS
 {
-	const int WIDTH = 300;                   // image width
-	const int HEIGHT = 210;                  // image height
+	const int WIDTH = 290;                   // image width
+	const int HEIGHT = 200;                  // image height
 	const int X = GAME_WIDTH / 2 - WIDTH / 2;   // location on screen
 	const int Y = GAME_HEIGHT / 2 - HEIGHT / 2;
 	const float SPEED = 100;                // pixels per second
