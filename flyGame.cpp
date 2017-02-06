@@ -124,7 +124,7 @@ void flyGame::initialize(HWND hwnd)
 		
 	}
 
-	//spitball texture
+	//fly texture
 	if (!flyTexture.initialize(graphics, FLY_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing flyTexture"));
 
@@ -140,7 +140,11 @@ void flyGame::initialize(HWND hwnd)
 	if (!spiderWeb.initialize(this, SpiderWebNS::WIDTH, SpiderWebNS::HEIGHT, 0, &spiderWebTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing spiderWeb"));
 
+	if (!TornadoTexture.initialize(graphics, TORNADO_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing TornadoTexture"));
 
+	if (!tornado.initialize(this, TornadoNS::WIDTH, TornadoNS::HEIGHT, 0, &TornadoTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing Tornado"));
 	background.setX(GAME_WIDTH / GAME_WIDTH);
 	backgrounds.setX(GAME_WIDTH / 1);
 
@@ -161,7 +165,7 @@ void flyGame::initialize(HWND hwnd)
 		spitball[i].setX(GAME_WIDTH);
 		spitball[i].setY((rand() % (GAME_HEIGHT/10)+1)*10);
 		//spitball.setY(GAME_HEIGHT/2);
-		spitball[i].setScale(0.5);
+		//spitball[i].setScale(0.5);
 
 		int ast = rand() % 5+200;
 		spitball[i].setVelocity(VECTOR2(ast, -ast));
@@ -170,9 +174,11 @@ void flyGame::initialize(HWND hwnd)
 	}
 	spiderWeb.setVisible(false);
 	spiderWeb.setY((rand() % (GAME_HEIGHT / 10) + 1) * 10);
-	fly.setY((rand() % (GAME_HEIGHT / 10) + 1) * 10);
+	//fly.setY((rand() % (GAME_HEIGHT / 10) + 1) * 10);
 	fly.setX(GAME_WIDTH);
-	return;
+
+	tornado.setY((rand() % (GAME_HEIGHT / 10) + 1) * 10);
+	tornado.setX(GAME_WIDTH);
 }
 
 //=============================================================================
@@ -281,11 +287,11 @@ void flyGame::updateObjectMovement()
 	frog.update(frameTime);
 	spiderWeb.update(frameTime);
 	fly.update(frameTime);
-
+	tornado.update(frameTime);
 	if (fly.getX() <= -150)
 	{
 		fly.setX(GAME_WIDTH);
-		fly.setY(rand() % (GAME_HEIGHT-100)+50);
+		fly.setY(rand() % (GAME_HEIGHT-150)+50);
 	}
 
 	for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
@@ -338,15 +344,21 @@ void flyGame::collisions()
 			gameOver();
 		}
 	}
-	if (player.collidesWith(spiderWeb, collisionVector) && spiderWeb.getVisible() == true)
-	{
-		gameOver();
-	}
+
 	if (player.collidesWith(fly, collisionVector) && fly.getVisible() == true)
 	{
 		gameOver();
 	}
 
+	if (player.collidesWith(spiderWeb, collisionVector) && spiderWeb.getVisible() == true)
+	{
+		gameOver();
+	}
+	if (player.collidesWith(tornado, collisionVector) && tornado.getVisible() == true)
+	{
+		slowPlayer();
+	}
+	
 }
 
 void flyGame::gameOver()
@@ -362,6 +374,11 @@ void flyGame::gameOver()
 	{
 		spitball[i].setVisible(false);
 	}
+}
+
+void flyGame::slowPlayer()
+{
+	player.setV(-(playerNS::SPEED / 5));
 }
 
 //=============================================================================
@@ -383,6 +400,7 @@ void flyGame::render()
 		//frog.draw();
 		spiderWeb.draw();
 		fly.draw();
+		tornado.draw();
 		for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
 		{
 			spitball[i].draw();
