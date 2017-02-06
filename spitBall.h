@@ -11,11 +11,11 @@
 
 namespace spitballNS
 {
-const int WIDTH = 150;
-const int HEIGHT = 150;
+const int WIDTH = 75;
+const int HEIGHT = 75;
 const int X = 0;   // location on screen
 const int Y = 0;
-const float ROTATION_RATE = 0; // radians per second
+const float ROTATION_RATE = -(float)PI / 4; // radians per second
 const float SPEED = 0;                  // 0 pixels per second
 const float MASS = 100.0f;              // mass
 const int   TEXTURE_COLS = 8;

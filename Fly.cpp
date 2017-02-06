@@ -31,4 +31,9 @@ void Fly::update(float frameTime)
 	Entity::update(frameTime);
 	spriteData.x -= frameTime * velocity.x;         // move ship along X
 	spriteData.y += (sin(spriteData.x / 10) * amplitude) / 5;
+
+	if (spriteData.y > GAME_HEIGHT - FlyNS::HEIGHT) // if hit bottom screen edge
+	{
+		spriteData.y = GAME_HEIGHT - FlyNS::HEIGHT; // position at bottom screen edge
+	}
 }

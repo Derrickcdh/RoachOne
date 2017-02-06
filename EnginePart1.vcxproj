@@ -94,11 +94,13 @@
     <ClCompile Include="graphics.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="invulnerable.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="spiderWeb.cpp" />
     <ClCompile Include="spitBall.cpp" />
     <ClCompile Include="textDX.cpp" />
     <ClCompile Include="textureManager.cpp" />
+    <ClCompile Include="Tornado.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -111,11 +113,13 @@
     <ClInclude Include="graphics.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="invulnerable.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="spiderWeb.h" />
     <ClInclude Include="spitBall.h" />
     <ClInclude Include="textDX.h" />
     <ClInclude Include="textureManager.h" />
+    <ClInclude Include="Tornado.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />

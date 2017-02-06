@@ -38,7 +38,11 @@ void spitBall::update(float frameTime)
 {
 	Entity::update(frameTime);
 	spriteData.x -= frameTime * velocity.x;         // move ship along X
-	
+	if (spriteData.y > GAME_HEIGHT - spitballNS::HEIGHT) // if hit bottom screen edge
+	{
+		spriteData.y = GAME_HEIGHT - spitballNS::HEIGHT; // position at bottom screen edge
+	}
+	spriteData.angle += (frameTime*spitballNS::ROTATION_RATE);
 	/*if (spriteData.x < (-100));
 	{
 		spriteData.x = GAME_WIDTH;

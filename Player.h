@@ -34,6 +34,7 @@ class Player : public Entity
 private:
 	bool flying;
 	bool dying;
+	int status;
 public:
 	// constructor
 	Player();
@@ -48,5 +49,10 @@ public:
 	void setflying(bool f);
 
 	void damage(WEAPON);
+
+	void setStatus(int i);
+
+	int returnStatus();
+	
 };
 #endif

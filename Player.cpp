@@ -26,6 +26,7 @@ Player::Player() : Entity()
 	mass = playerNS::MASS;
 	dying = false;
 	flying = false;
+	status = 0;
 }
 
 //=============================================================================
@@ -81,4 +82,13 @@ void Player::damage(WEAPON weapon)
 	dying = true;
 }
 
+int Player::returnStatus()
+{
+	return status;
+}
 
+
+void Player::setStatus(int v)
+{
+	status = v;
+}

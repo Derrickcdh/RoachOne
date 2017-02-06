@@ -17,6 +17,7 @@
 #include "spitBall.h"
 #include "Fly.h"
 #include "Tornado.h"
+#include "invulnerable.h"
 using namespace std;
 
 #define VK_0 0x30
@@ -44,6 +45,7 @@ private:
 	TextureManager spiderWebTexture;
 	TextureManager flyTexture;
 	TextureManager TornadoTexture;
+	TextureManager buffInvulnerabletexture;
 	Image   background;                 // nebula image
 	Image   backgrounds;                 // nebula image
 	Image   menu;                 // menu image
@@ -54,6 +56,7 @@ private:
 	Image	frog;
 	Image	TornadoImage;
 
+	Invulnerable	buffInvulnerable;
 	Player player;
 	SpiderWeb spiderWeb;
 	spitBall spitball[10];
@@ -68,6 +71,7 @@ private:
 	clock_t end;
 
 	TextDX  *dxFontMedium;
+	TextDX	*dxFont;
 public:
 	// Constructor
 	flyGame();
@@ -91,6 +95,7 @@ public:
 	void selectObject();
 	void gameOver();
 	void slowPlayer();
+	void updateObjFrameTime();
 };
 
 #endif

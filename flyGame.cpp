@@ -11,6 +11,7 @@ int gameStart = 0;	//gameMode
 int scorePoint = 0; //player score
 int objectPoints;
 int webPoints;
+bool control;
 
 //double seconds;
 //=============================================================================
@@ -19,6 +20,7 @@ int webPoints;
 flyGame::flyGame()
 {
 	dxFontMedium = new TextDX();
+	dxFont = new TextDX();
 }
 
 //=============================================================================
@@ -108,7 +110,7 @@ void flyGame::initialize(HWND hwnd)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
 
 	// score
-	if (dxFontMedium->initialize(graphics, 62, true, false, "Calibri") == false)
+	if (dxFont->initialize(graphics, 62, true, false, "Calibri") == false)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
 
 	//spitball texture
@@ -145,6 +147,15 @@ void flyGame::initialize(HWND hwnd)
 
 	if (!tornado.initialize(this, TornadoNS::WIDTH, TornadoNS::HEIGHT, 0, &TornadoTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing Tornado"));
+
+	// buff 1 texture
+	if (!buffInvulnerabletexture.initialize(graphics, Invulnerable_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing buff texture"));
+
+	// buff 1
+	if (!buffInvulnerable.initialize(this, InvulnerableNS::WIDTH, InvulnerableNS::HEIGHT, 0, &buffInvulnerabletexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing buff"));
+
 	background.setX(GAME_WIDTH / GAME_WIDTH);
 	backgrounds.setX(GAME_WIDTH / 1);
 
@@ -179,6 +190,10 @@ void flyGame::initialize(HWND hwnd)
 
 	tornado.setY((rand() % (GAME_HEIGHT / 10) + 1) * 10);
 	tornado.setX(GAME_WIDTH);
+
+	buffInvulnerable.setY(10);
+	buffInvulnerable.setX(100);
+
 }
 
 //=============================================================================
@@ -208,8 +223,10 @@ void flyGame::update()
 		player.setY(GAME_HEIGHT - 100);
 		objectPoints = 10;
 		selectObject();
+		control = true;
+		tornado.setX(GAME_WIDTH);
 	}
-	if (gameStart == 1)
+	if (gameStart == 1 && control == true)
 	{
 		if (gameStart == 1 && input->isKeyDown(VK_SPACE))
 		{
@@ -224,6 +241,28 @@ void flyGame::update()
 		}
 		updateObjectMovement();
 		
+	}
+	else if (gameStart == 1 && control == false)
+	{
+		player.drop(frameTime);
+		player.setY(player.getY() - playerNS::SPEED * 1);
+		updateObjFrameTime();
+		for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
+		{
+			spitball[i].update(frameTime);
+		}
+		if (input->isKeyDown(VK_RETURN))
+		{
+			spiderWeb.setVisible(false);
+			fly.setVisible(false);
+			for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
+			{
+				spitball[i].setVisible(false);
+			}
+			player.flipVertical(false);
+			gameStart = 0;
+			player.setStatus(0);
+		}
 	}
 	
 	//spitball.update(frameTime);
@@ -284,10 +323,7 @@ void flyGame::updateObjectMovement()
 	{
 		spiderWeb.setVisible(false);
 	}
-	frog.update(frameTime);
-	spiderWeb.update(frameTime);
-	fly.update(frameTime);
-	tornado.update(frameTime);
+	updateObjFrameTime();
 	if (fly.getX() <= -150)
 	{
 		fly.setX(GAME_WIDTH);
@@ -302,18 +338,21 @@ void flyGame::updateObjectMovement()
 		{
 			spitball[i].setX(GAME_WIDTH);
 			spitball[i].setY(rand() % (GAME_HEIGHT)+1);
-			if (spitball[i].getY() < 5)
-			{
-				spitball[i].setY(spitball[i].getY() + 10);
-			}
-			if (spitball[i].getY() > GAME_HEIGHT - 5)
-			{
-				spitball[i].setY(spitball[i].getY() - 10);
-			}
-			//spitball[i].setVisible(false);
-			//spitPoints += 3;
 		}
 	}
+	if (tornado.getX() < -1000)
+	{
+		tornado.setX(rand() % (GAME_WIDTH * 2)+(GAME_WIDTH));
+		tornado.setY(rand() % (GAME_HEIGHT/2)+10);
+	}
+}
+
+void flyGame::updateObjFrameTime()
+{
+	frog.update(frameTime);
+	spiderWeb.update(frameTime);
+	fly.update(frameTime);
+	tornado.update(frameTime);
 }
 
 void flyGame::resetObjects()
@@ -337,43 +376,52 @@ void flyGame::ai()
 void flyGame::collisions()
 {
 	VECTOR2 collisionVector;
-	for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
+	if (player.returnStatus() != 1)
 	{
-		if (player.collidesWith(spitball[i], collisionVector) && spitball[i].getVisible()==true)
+		for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
+		{
+			if (player.collidesWith(spitball[i], collisionVector) && spitball[i].getVisible() == true)
+			{
+				gameOver();
+			}
+		}
+
+		if (player.collidesWith(fly, collisionVector) && fly.getVisible() == true)
 		{
 			gameOver();
 		}
-	}
 
-	if (player.collidesWith(fly, collisionVector) && fly.getVisible() == true)
-	{
-		gameOver();
+		if (player.collidesWith(spiderWeb, collisionVector) && spiderWeb.getVisible() == true)
+		{
+			gameOver();
+		}
+		if (player.collidesWith(tornado, collisionVector) && tornado.getVisible() == true)
+		{
+			slowPlayer();
+		}
 	}
-
-	if (player.collidesWith(spiderWeb, collisionVector) && spiderWeb.getVisible() == true)
+	if (player.collidesWith(buffInvulnerable, collisionVector) && buffInvulnerable.getVisible() == true)
 	{
-		gameOver();
+		player.setStatus(1);
+		buffInvulnerable.setVisible(false);
 	}
-	if (player.collidesWith(tornado, collisionVector) && tornado.getVisible() == true)
-	{
-		slowPlayer();
-	}
-	
 }
 
 void flyGame::gameOver()
 {
 	player.damage(SPITBALL);
 	player.setActive(false);
-	player.setVisible(false);
-	gameStart = 0;
+	//player.setVisible(false);
+	player.flipVertical(true);
 	objectPoints = 0;
-	spiderWeb.setVisible(false);
-	fly.setVisible(false);
-	for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
-	{
-		spitball[i].setVisible(false);
-	}
+	/*spiderWeb.setVisible(false);
+	fly.setVisible(false);*/
+	//for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
+	//{
+	//	spitball[i].setVisible(false);
+	//}
+	control = false;
+	player.setStatus(2);
 }
 
 void flyGame::slowPlayer()
@@ -386,6 +434,8 @@ void flyGame::slowPlayer()
 //=============================================================================
 void flyGame::render()
 {
+	const int BUF_SIZE = 50;
+	static char buffer[BUF_SIZE];
 	graphics->spriteBegin();                // begin drawing sprites
 
 	if (gameStart == 0)//render main menu
@@ -401,12 +451,27 @@ void flyGame::render()
 		spiderWeb.draw();
 		fly.draw();
 		tornado.draw();
+		buffInvulnerable.draw();
 		for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
 		{
 			spitball[i].draw();
 		}
 		dxFontMedium->setFontColor(graphicsNS::WHITE);
 		dxFontMedium->print(to_string(displayTimer()), 0, 20);
+		//_snprintf_s(buffer, BUF_SIZE, "Test");
+		//dxFont->print(buffer, GAME_WIDTH - 200, GAME_HEIGHT - 100);
+		if (player.returnStatus() == 1)
+		{
+			_snprintf_s(buffer, BUF_SIZE, "Invulnerable");
+			dxFont->print(buffer, GAME_WIDTH / 4, GAME_HEIGHT / 2);
+		}
+
+		if (player.returnStatus() == 2)
+		{
+			_snprintf_s(buffer, BUF_SIZE, "Game Over, Press Enter to return");
+			dxFont->print(buffer, GAME_WIDTH / 4, GAME_HEIGHT / 2);
+		}
+		//dxFontMedium->print(displayStatus(), GAME_WIDTH/2, GAME_HEIGHT/2);
 		//dxFontMedium->print(to_string(displayTimer()), 0, 120);
 	}
 	// Game Mode
@@ -437,6 +502,7 @@ void flyGame::releaseAll()
 	frogTexture.onLostDevice();
 	spitballTexture.onLostDevice();
 	flyTexture.onLostDevice();
+	spiderWebTexture.onLostDevice();
 	Game::releaseAll();
 	return;
 }

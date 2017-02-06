@@ -13,7 +13,7 @@
 #include "input.h"
 #include "constants.h"
 #include "gameError.h"
-
+#include "textDX.h"
 class Game
 {
 protected:
@@ -30,6 +30,7 @@ protected:
     DWORD   sleepTime;          // number of milli-seconds to sleep between frames
     bool    paused;             // true if game is paused
     bool    initialized;
+	
 
 public:
     // Constructor

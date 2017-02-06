@@ -30,7 +30,7 @@
 // window
 const char CLASS_NAME[] = "Roach One";
 const char GAME_TITLE[] = "Roach One";
-const bool FULLSCREEN = false;              // windowed or fullscreen
+const bool FULLSCREEN = true;              // windowed or fullscreen
 const UINT GAME_WIDTH =  1280;               // width of game in pixels
 const UINT GAME_HEIGHT = 720;               // height of game in pixels
  
@@ -62,6 +62,7 @@ const char SPITBALL_IMAGE[] = "pictures\\Spitball.png";
 const char SPIDERWEB_IMAGE[] = "pictures\\spiderweb.png";
 const char FLY_IMAGE[] = "pictures\\fly.png";
 const char TORNADO_IMAGE[] = "pictures\\fanwing.png";
+const char Invulnerable_IMAGE[] = "pictures\\Cucumber Maki.png";
 
 // Player
 const int  FLY_START_FRAME = 0;         // starting frame of ship animation
