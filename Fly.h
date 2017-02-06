@@ -18,7 +18,7 @@ class Fly : public Entity
 {
 private:
 	boolean active = true;
-	int amplitude = 5;
+	int amplitude = 10;
 public:
 	// constructor
 	Fly();

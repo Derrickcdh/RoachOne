@@ -7,18 +7,18 @@ Fly::Fly() : Entity()
 	spriteData.y = FlyNS::Y;
 	spriteData.rect.bottom = FlyNS::HEIGHT;    // rectangle to select parts of an image
 	spriteData.rect.right = FlyNS::WIDTH;
-	velocity.x = 50;                             // velocity X
-	velocity.y = 50;                             // velocity Y
+	velocity.x = 100;                             // velocity X
+	velocity.y = 100;                             // velocity Y
 	mass = FlyNS::MASS;
-	collisionType = entityNS::BOX;
+	collisionType = entityNS::CIRCLE;
+	radius = FlyNS::WIDTH / 2.0;
 	spriteData.scale = 1;
 }
 //=============================================================================
 // Initialize the Asteroid.
 // Post: returns true if successful, false if failed
 //=============================================================================
-bool Fly::initialize(Game *gamePtr, int width, int height, int ncols,
-	TextureManager *textureM)
+bool Fly::initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM)
 {
 	return(Entity::initialize(gamePtr, width, height, ncols, textureM));
 }
