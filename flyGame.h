@@ -16,6 +16,7 @@
 #include "spiderWeb.h"
 #include "spitBall.h"
 #include "Fly.h"
+#include "Tornado.h"
 using namespace std;
 
 #define VK_0 0x30
@@ -42,6 +43,7 @@ private:
 	TextureManager spitballTexture;
 	TextureManager spiderWebTexture;
 	TextureManager flyTexture;
+	TextureManager TornadoTexture;
 	Image   background;                 // nebula image
 	Image   backgrounds;                 // nebula image
 	Image   menu;                 // menu image
@@ -50,10 +52,13 @@ private:
 	Image	mode2;
 	Image	playerImage;
 	Image	frog;
+	Image	TornadoImage;
+
 	Player player;
 	SpiderWeb spiderWeb;
 	spitBall spitball[10];
 	Fly fly;
+	Tornado tornado;
 	//timer
 	int timer = 60;
 	int elapsed_secs = 0;
@@ -85,6 +90,7 @@ public:
 	void resetObjects();
 	void selectObject();
 	void gameOver();
+	void slowPlayer();
 };
 
 #endif
