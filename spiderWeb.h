@@ -1,7 +1,7 @@
 //  Module:             GamePlay Programming
 //  Assignment2:        Roach One
-//  Student Name:       Choong Di Han Derrick, Andre hiu yuan xiang, ting hong yang
-//  Student Number:     S10161350, S10127976, S10159859
+//  Student Name:       Choong Di Han Derrick, Andre hiu yuan xiang, Ting hong yang
+//  Student Number:     S10161350, S10159859, S10127976
 
 #ifndef _SPIDERWEB_H               // Prevent multiple definitions if this 
 #define _SPIDERWEB_H               // file is included in more than one place
@@ -13,8 +13,8 @@
 
 namespace SpiderWebNS
 {
-	const int WIDTH = 290;                   // image width
-	const int HEIGHT = 200;                  // image height
+	const int WIDTH = 235;                   // image width
+	const int HEIGHT = 170;                  // image height
 	const int X = GAME_WIDTH / 2 - WIDTH / 2;   // location on screen
 	const int Y = GAME_HEIGHT / 2 - HEIGHT / 2;
 	const float SPEED = 100;                // pixels per second

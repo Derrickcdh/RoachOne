@@ -1,9 +1,15 @@
+//  Module:             GamePlay Programming
+//  Assignment2:        Roach One
+//  Student Name:       Choong Di Han Derrick, Andre hiu yuan xiang, Ting hong yang
+//  Student Number:     S10161350, S10159859, S10127976
+
 #ifndef _TORNADO_H
 #define _TORNADO_H
 #define WIN32_LEAN_AND_MEAN
 #include "entity.h"
 #include "constants.h"
 #include <math.h>
+
 namespace TornadoNS
 {
 	const int WIDTH = GAME_WIDTH/2;

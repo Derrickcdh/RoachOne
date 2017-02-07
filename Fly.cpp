@@ -1,4 +1,10 @@
+//  Module:             GamePlay Programming
+//  Assignment2:        Roach One
+//  Student Name:       Choong Di Han Derrick, Andre hiu yuan xiang, Ting hong yang
+//  Student Number:     S10161350, S10159859, S10127976
+
 #include "Fly.h"
+
 Fly::Fly() : Entity()
 {
 	spriteData.width = FlyNS::WIDTH;           // size of asteroid

@@ -1,7 +1,7 @@
 //  Module:             GamePlay Programming
 //  Assignment2:        Roach One
-//  Student Name:       Choong Di Han Derrick, Andre hiu yuan xiang, ting hong yang
-//  Student Number:     S10161350, S10127976, S10159859
+//  Student Name:       Choong Di Han Derrick, Andre hiu yuan xiang, Ting hong yang
+//  Student Number:     S10161350, S10159859, S10127976
 
 #include "flyGame.h"
 #include <stdlib.h>     /* srand, rand */
@@ -14,6 +14,7 @@ int webPoints;
 bool control;
 time_t buffTime;
 float bTime;
+
 //double seconds;
 //=============================================================================
 // Constructor
@@ -82,21 +83,13 @@ void flyGame::initialize(HWND hwnd)
 	if (!gamemode.initialize(graphics, 0, 0, 0, &gamemodeTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing game mode menu"));
 
-	// mode 1 texture
-	if (!mode1Texture.initialize(graphics, MODE1_IMAGE))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing mode 1 texture"));
+	// frog tongue texture
+	if (!frogtongueTexture.initialize(graphics, FROGTONGUE_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing frog tongue texture"));
 
-	// mode 1
-	if (!mode1.initialize(graphics, 0, 0, 0, &mode1Texture))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing mode 1"));
-
-	// mode 2 texture
-	if (!mode2Texture.initialize(graphics, MODE2_IMAGE))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing mode 2 texture"));
-
-	// mode 2
-	if (!mode2.initialize(graphics, 0, 0, 0, &mode2Texture))
-		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing mode 2"));
+	// frog tongue
+	if (!frogtongue.initialize(this, frogtongueNS::WIDTH, frogtongueNS::HEIGHT, 0, &frogtongueTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing frog tongue"));
 
 	// frog texture
 	if (!frogTexture.initialize(graphics, FROG_IMAGE))
@@ -106,11 +99,11 @@ void flyGame::initialize(HWND hwnd)
 	if (!frog.initialize(graphics, FROG_WIDTH, FROG_HEIGHT, FROG_COLS, &frogTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing frog"));
 
-	// timer
+	// score
 	if (dxFontMedium->initialize(graphics, 62, true, false, "Calibri") == false)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
 
-	// score
+	// buff & game over
 	if (dxFont->initialize(graphics, 62, true, false, "Calibri") == false)
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing DirectX font"));
 
@@ -174,28 +167,24 @@ void flyGame::initialize(HWND hwnd)
 	player.setFrames(playerNS::PLAYER_START_FRAME, playerNS::PLAYER_END_FRAME);
 	player.setCurrentFrame(playerNS::PLAYER_START_FRAME);
 
-	//frog.setX(GAME_WIDTH / 5);
-	//frog.setY(GAME_HEIGHT / 2);
+	/*frogtongue.setVisible(false);
+	frogtongue.setY((rand() % (GAME_HEIGHT / 10) + 1) * 10);
 
-	//frog.setFrames(FLY_START_FRAME, FLY_END_FRAME);   // animation frames 
-	//frog.setCurrentFrame(FLY_START_FRAME);             // starting frame
-	//frog.setFrameDelay(FLY_ANIMATION_DELAY);
+	frog.setVisible(true);
+	frog.setX(GAME_WIDTH / 1.05);
+	frog.setY((rand() % (GAME_HEIGHT / 10) + 1) * 10);*/
 
 	for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
 	{
 		spitball[i].setX(GAME_WIDTH);
 		spitball[i].setY((rand() % (GAME_HEIGHT/10)+1)*10);
-		//spitball.setY(GAME_HEIGHT/2);
-		//spitball[i].setScale(0.5);
 
 		int ast = rand() % 5+200;
 		spitball[i].setVelocity(VECTOR2(ast, -ast));
-		//(VECTOR2(spitballNS::SPEED, -spitballNS::SPEED))
 		spitball[i].setVisible(false);
 	}
 	spiderWeb.setVisible(false);
 	spiderWeb.setY((rand() % (GAME_HEIGHT / 10) + 1) * 10);
-	//fly.setY((rand() % (GAME_HEIGHT / 10) + 1) * 10);
 	fly.setX(GAME_WIDTH);
 
 	tornado.setY((rand() % (GAME_HEIGHT / 10) + 1) * 10);
@@ -216,14 +205,12 @@ void flyGame::update()
 {
 	if (input->isKeyDown(VK_RETURN) && gameStart == 0)            // Game start level 1, 
 	{
-		gameStart = 4;		//set the game mode
+		gameStart = 3;		//set the game mode
 	}
-	if (input->isKeyDown(VK_1) && gameStart == 3)
+	if (input->isKeyDown(VK_SPACE) && gameStart == 3)
 	{
-		gameStart = 4;
-	}
-	if (input->isKeyDown(VK_SPACE) && gameStart == 4)
-	{
+		PlaySound(TEXT("pictures\\dotto.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
+
 		gameStart = 1;		//set the game mode
 		start = time(0);	//start the timer
 		scorePoint = 0;		//reset the score
@@ -236,6 +223,15 @@ void flyGame::update()
 		selectObject();
 		control = true;
 		
+		/*if (fly.getVisible() == false)
+		{
+		PlaySound(TEXT("pictures\\FlyBuzzing.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
+		}
+
+		if (tornado.getVisible() == false)
+		{
+		PlaySound(TEXT("pictures\\Wind.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
+		}*/
 	}
 	if (gameStart == 1 && control == true)
 	{
@@ -279,6 +275,8 @@ void flyGame::update()
 		{
 			spiderWeb.setVisible(false);
 			fly.setVisible(false);
+			//frogtongue.setVisible(false);
+			//frog.setVisible(false);
 			for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
 			{
 				spitball[i].setVisible(false);
@@ -289,23 +287,18 @@ void flyGame::update()
 			player.setStatus(0);
 		}
 	}
-	
-	//spitball.update(frameTime);
 }
 
 void flyGame::selectObject()
 {
 	if (objectPoints >= 1)
 	{
-		//int randomCheck = rand() % 2 + 1;
-
 		if (spiderWeb.getVisible()==false)
 		{
 			spiderWeb.setVisible(true);
 			spiderWeb.setX(GAME_WIDTH);
 			spiderWeb.setY((rand() % (GAME_HEIGHT / 10) + 1) * 10);
 		}
-		
 	}
 	
 	if (objectPoints >= 3)
@@ -330,6 +323,20 @@ void flyGame::selectObject()
 		fly.setX(GAME_WIDTH);
 		fly.setY((rand() % (GAME_HEIGHT / 10) + 1) * 10);
 	}
+
+	/*if (frogtongue.getVisible() == false)
+	{
+		frogtongue.setVisible(true);
+		frogtongue.setX(GAME_WIDTH);
+		frogtongue.setY((rand() % (GAME_HEIGHT / 10) + 1) * 10);
+	}
+
+	if (frog.getVisible() == false)
+	{
+		frog.setVisible(true);
+		frog.setX(GAME_WIDTH);
+		frog.setY((rand() % (GAME_HEIGHT / 10) + 1) * 10);
+	}*/
 }
 
 void flyGame::updateObjectMovement()
@@ -337,6 +344,7 @@ void flyGame::updateObjectMovement()
 	background.setX(background.getX() - frameTime * FLY_SPEED);
 	backgrounds.setX(backgrounds.getX() - frameTime * FLY_SPEED);
 	scorePoint++;
+
 	if (backgrounds.getX() <= 0)
 	{
 		background.setX(GAME_WIDTH / GAME_WIDTH);
@@ -344,6 +352,17 @@ void flyGame::updateObjectMovement()
 		objectPoints += 1;
 		selectObject();
 	}
+
+	/*if (frogtongue.getX() < -1025)
+	{
+		frogtongue.setVisible(false);
+	}
+
+	if (frog.getX() < -150)
+	{
+		frog.setVisible(false);
+	}*/
+
 	if (spiderWeb.getX() < -300)
 	{
 		spiderWeb.setVisible(false);
@@ -387,7 +406,8 @@ void flyGame::updateObjectMovement()
 
 void flyGame::updateObjFrameTime()
 {
-	frog.update(frameTime);
+	//frogtongue.update(frameTime);
+	//frog.update(frameTime);
 	spiderWeb.update(frameTime);
 	fly.update(frameTime);
 	tornado.update(frameTime);
@@ -397,6 +417,8 @@ void flyGame::updateObjFrameTime()
 
 void flyGame::resetObjects()
 {
+	//frogtongue.setVisible(false);
+	//frog.setVisible(false);
 	spiderWeb.setVisible(false);
 	fly.setVisible(false);
 	for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
@@ -437,6 +459,10 @@ void flyGame::collisions()
 			}
 		}
 
+		/*if (player.collidesWith(frogtongue, collisionVector) && frogtongue.getVisible() == true)
+		{
+		gameOver();
+		}*/
 		if (player.collidesWith(fly, collisionVector) && fly.getVisible() == true)
 		{
 			gameOver();
@@ -464,16 +490,13 @@ void flyGame::collisions()
 		speedBuff.setVisible(false);
 		buffTime = time(0);
 		begin = clock();
-		
 	}
-
 }
 
 void flyGame::gameOver()
 {
 	player.damage(SPITBALL);
 	player.setActive(false);
-	//player.setVisible(false);
 	player.flipVertical(true);
 	objectPoints = 0;
 	control = false;
@@ -503,23 +526,24 @@ void flyGame::render()
 		background.draw();
 		backgrounds.draw();
 		player.draw();
+		//frogtongue.draw();
 		//frog.draw();
 		spiderWeb.draw();
 		fly.draw();
 		tornado.draw();
 		buffInvulnerable.draw();
 		speedBuff.draw();
+
 		for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
 		{
 			spitball[i].draw();
 		}
 		dxFontMedium->setFontColor(graphicsNS::WHITE);
 		dxFontMedium->print(to_string((int)displayTimer()), 0, 20);
-		//_snprintf_s(buffer, BUF_SIZE, "Test");
-		//dxFont->print(buffer, GAME_WIDTH - 200, GAME_HEIGHT - 100);
+		
 		if (player.returnStatus() == 1)
 		{
-			_snprintf_s(buffer, BUF_SIZE, "         Invulnerable", (int)displayDifference());
+			_snprintf_s(buffer, BUF_SIZE, "         Invulnerable %d", (int)displayDifference());
 			dxFont->print(buffer, GAME_WIDTH / 4, GAME_HEIGHT / 2);
 		}
 
@@ -534,18 +558,11 @@ void flyGame::render()
 			_snprintf_s(buffer, BUF_SIZE, "         Speed UP! %d", (int)displayDifference());
 			dxFont->print(buffer, GAME_WIDTH / 4, GAME_HEIGHT / 2);
 		}
-
-		//dxFontMedium->print(displayStatus(), GAME_WIDTH/2, GAME_HEIGHT/2);
-		//dxFontMedium->print(to_string(displayTimer()), 0, 120);
 	}
 	// Game Mode
 	if (gameStart == 3) // game mode screen
 	{
 		gamemode.draw();
-	}
-	if (gameStart == 4)
-	{
-		mode1.draw();
 	}
 
 	graphics->spriteEnd();                  // end drawing sprites
@@ -560,13 +577,13 @@ void flyGame::releaseAll()
 	backgroundTexture.onLostDevice();
 	backgroundsTexture.onLostDevice();
 	gamemodeTexture.onLostDevice();
-	mode1Texture.onLostDevice();
-	mode2Texture.onLostDevice();
 	playerTexture.onLostDevice();
-	frogTexture.onLostDevice();
+	//frogtongueTexture.onLostDevice();
+	//frogTexture.onLostDevice();
 	spitballTexture.onLostDevice();
 	flyTexture.onLostDevice();
 	spiderWebTexture.onLostDevice();
+
 	Game::releaseAll();
 	return;
 }
@@ -580,12 +597,12 @@ void flyGame::resetAll()
 	backgroundTexture.onResetDevice();
 	backgroundsTexture.onResetDevice();
 	gamemodeTexture.onResetDevice();
-	mode1Texture.onResetDevice();
-	mode2Texture.onResetDevice();
 	playerTexture.onResetDevice();
-	frogTexture.onResetDevice();
+	//frogtongueTexture.onResetDevice();
+	//frogTexture.onResetDevice();
 	spitballTexture.onResetDevice();
 	flyTexture.onResetDevice();
+
 	Game::resetAll();
 	return;
 }

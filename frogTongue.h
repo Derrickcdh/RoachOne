@@ -3,43 +3,41 @@
 //  Student Name:       Choong Di Han Derrick, Andre hiu yuan xiang, Ting hong yang
 //  Student Number:     S10161350, S10159859, S10127976
 
-#ifndef _INVULNERABLE_H                 // Prevent multiple definitions if this 
-#define _INVULNERABLE_H               // file is included in more than one place
+#ifndef FrogTongue_h               // Prevent multiple definitions if this 
+#define FrogTongue_h               // file is included in more than one place
 #define WIN32_LEAN_AND_MEAN
 
 #include "entity.h"
 #include "constants.h"
 #include "game.h"
 
-namespace InvulnerableNS
+namespace frogtongueNS
 {
-	const int WIDTH = 100;                   // image width
-	const int HEIGHT = 100;                  // image height
-	const int X = 0;   // location on screen
-	const int Y = 0;
-	const float SPEED = 200;                // pixels per second
+	const int WIDTH = 1025;                   // image width
+	const int HEIGHT = 30;                  // image height
+	const int X = GAME_WIDTH / 2 - WIDTH / 2;   // location on screen
+	const int Y = GAME_HEIGHT / 2 - HEIGHT / 2;
+	const float SPEED = 250;                // pixels per second
 	const float MIN_VY = 0;                 // minumum Y velocity
 	const float MASS = 1.0f;
 }
 
 // inherits from Entity class
-class Invulnerable : public Entity
+class FrogTongue : public Entity
 {
 private:
 	boolean active = true;
 public:
 	// constructor
-	Invulnerable();
+	FrogTongue();
 
 	// inherited member functions
 	void update(float frameTime);
 
-	void InvulnerableCollideWith();
 	//virtual void draw();
+
 	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
 	boolean getActive();
 	void setActive(boolean flag);
-
 };
-
 #endif

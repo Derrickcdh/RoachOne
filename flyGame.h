@@ -1,7 +1,7 @@
 //  Module:             GamePlay Programming
 //  Assignment2:        Roach One
-//  Student Name:       Choong Di Han Derrick, Andre hiu yuan xiang, ting hong yang
-//  Student Number:     S10161350, S10127976, S10159859
+//  Student Name:       Choong Di Han Derrick, Andre hiu yuan xiang, Ting hong yang
+//  Student Number:     S10161350, S10159859, S10127976
 
 #ifndef _FLYGAME_H             // prevent multiple definitions if this 
 #define _FLYGAME_H             // ..file is included in more than one place
@@ -16,6 +16,7 @@
 #include "spiderWeb.h"
 #include "spitBall.h"
 #include "Fly.h"
+#include "frogTongue.h"
 #include "Tornado.h"
 #include "invulnerable.h"
 #include "speedUp.h"
@@ -38,9 +39,8 @@ private:
 	TextureManager backgroundsTexture;   // nebula texture
 	TextureManager menuTexture;   // menu texture
 	TextureManager gamemodeTexture;
-	TextureManager mode1Texture;
-	TextureManager mode2Texture;
 	TextureManager playerTexture;
+	TextureManager frogtongueTexture;
 	TextureManager frogTexture;
 	TextureManager spitballTexture;
 	TextureManager spiderWebTexture;
@@ -48,23 +48,24 @@ private:
 	TextureManager TornadoTexture;
 	TextureManager buffInvulnerabletexture;
 	TextureManager speedBuffTexture;
+
 	Image   background;                 // nebula image
 	Image   backgrounds;                 // nebula image
 	Image   menu;                 // menu image
 	Image	gamemode;
-	Image	mode1;
-	Image	mode2;
 	Image	playerImage;
 	Image	frog;
 	Image	TornadoImage;
 	
 	SpeedUp speedBuff;
 	Invulnerable	buffInvulnerable;
+	FrogTongue	frogtongue;
 	Player player;
 	SpiderWeb spiderWeb;
 	spitBall spitball[10];
 	Fly fly;
 	Tornado tornado;
+
 	//timer
 	float buffTimer = 3;
 	int elapsed_secs = 0;
@@ -75,6 +76,7 @@ private:
 
 	TextDX  *dxFontMedium;
 	TextDX	*dxFont;
+
 public:
 	// Constructor
 	flyGame();
