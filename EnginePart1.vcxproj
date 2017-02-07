@@ -96,6 +96,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="invulnerable.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="speedUp.cpp" />
     <ClCompile Include="spiderWeb.cpp" />
     <ClCompile Include="spitBall.cpp" />
     <ClCompile Include="textDX.cpp" />
@@ -115,6 +116,7 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="invulnerable.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="speedUp.h" />
     <ClInclude Include="spiderWeb.h" />
     <ClInclude Include="spitBall.h" />
     <ClInclude Include="textDX.h" />

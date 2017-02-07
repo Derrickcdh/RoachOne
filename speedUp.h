@@ -3,15 +3,15 @@
 //  Student Name:       Choong Di Han Derrick, Andre hiu yuan xiang, ting hong yang
 //  Student Number:     S10161350, S10127976, S10159859
 
-#ifndef _INVULNERABLE_H                 // Prevent multiple definitions if this 
-#define _INVULNERABLE_H               // file is included in more than one place
+#ifndef _SPEEDUP_H                 // Prevent multiple definitions if this 
+#define _SPEEDUP_H               // file is included in more than one place
 #define WIN32_LEAN_AND_MEAN
 
 #include "entity.h"
 #include "constants.h"
 #include "game.h"
 
-namespace InvulnerableNS
+namespace SpeedUpNS
 {
 	const int WIDTH = 100;                   // image width
 	const int HEIGHT = 100;                  // image height
@@ -23,18 +23,18 @@ namespace InvulnerableNS
 }
 
 // inherits from Entity class
-class Invulnerable : public Entity
+class SpeedUp : public Entity
 {
 private:
 	boolean active = true;
 public:
 	// constructor
-	Invulnerable();
+	SpeedUp();
 
 	// inherited member functions
 	void update(float frameTime);
 
-	void InvulnerableCollideWith();
+	void SpeedUpCollideWith();
 	//virtual void draw();
 	virtual bool initialize(Game *gamePtr, int width, int height, int ncols, TextureManager *textureM);
 	boolean getActive();

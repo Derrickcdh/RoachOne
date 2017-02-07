@@ -12,7 +12,8 @@ int scorePoint = 0; //player score
 int objectPoints;
 int webPoints;
 bool control;
-
+time_t buffTime;
+float bTime;
 //double seconds;
 //=============================================================================
 // Constructor
@@ -156,6 +157,15 @@ void flyGame::initialize(HWND hwnd)
 	if (!buffInvulnerable.initialize(this, InvulnerableNS::WIDTH, InvulnerableNS::HEIGHT, 0, &buffInvulnerabletexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing buff"));
 
+	// buff 1 texture
+	if (!speedBuffTexture.initialize(graphics, SPEED_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing buff texture"));
+
+	// buff 1
+	if (!speedBuff.initialize(this, InvulnerableNS::WIDTH, InvulnerableNS::HEIGHT, 0, &speedBuffTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing buff"));
+
+
 	background.setX(GAME_WIDTH / GAME_WIDTH);
 	backgrounds.setX(GAME_WIDTH / 1);
 
@@ -191,9 +201,12 @@ void flyGame::initialize(HWND hwnd)
 	tornado.setY((rand() % (GAME_HEIGHT / 10) + 1) * 10);
 	tornado.setX(GAME_WIDTH);
 
-	buffInvulnerable.setY(10);
-	buffInvulnerable.setX(100);
+	buffInvulnerable.setY((rand() % (GAME_HEIGHT / 10) + 1) * 10);
+	buffInvulnerable.setX(GAME_WIDTH);
 
+	speedBuff.setY((rand() % (GAME_HEIGHT / 10) + 10) * 10);
+	speedBuff.setY(GAME_HEIGHT/2);
+	speedBuff.setX(GAME_WIDTH);
 }
 
 //=============================================================================
@@ -211,11 +224,9 @@ void flyGame::update()
 	}
 	if (input->isKeyDown(VK_SPACE) && gameStart == 4)
 	{
-		begin = clock();
 		gameStart = 1;		//set the game mode
 		start = time(0);	//start the timer
 		scorePoint = 0;		//reset the score
-		timer = 0;
 		elapsed_secs = 0;
 		player.setActive(true);
 		player.setVisible(true);
@@ -224,7 +235,7 @@ void flyGame::update()
 		objectPoints = 10;
 		selectObject();
 		control = true;
-		tornado.setX(GAME_WIDTH);
+		
 	}
 	if (gameStart == 1 && control == true)
 	{
@@ -240,6 +251,19 @@ void flyGame::update()
 			player.setY(player.getY() - playerNS::SPEED * 1);
 		}
 		updateObjectMovement();
+		if (player.returnStatus() == 3)
+		{
+			updateObjectMovement();
+		}
+		if (player.returnStatus() != 0 || player.returnStatus() != 2)
+		{
+			bTime = difftime(time(0), buffTime);
+			if (bTime > buffTimer)
+			{
+				player.setStatus(0);
+				buffTime = 0;
+			}
+		}
 		
 	}
 	else if (gameStart == 1 && control == false)
@@ -261,6 +285,7 @@ void flyGame::update()
 			}
 			player.flipVertical(false);
 			gameStart = 0;
+			elapsed_secs = 0;
 			player.setStatus(0);
 		}
 	}
@@ -311,7 +336,7 @@ void flyGame::updateObjectMovement()
 {
 	background.setX(background.getX() - frameTime * FLY_SPEED);
 	backgrounds.setX(backgrounds.getX() - frameTime * FLY_SPEED);
-	
+	scorePoint++;
 	if (backgrounds.getX() <= 0)
 	{
 		background.setX(GAME_WIDTH / GAME_WIDTH);
@@ -345,6 +370,19 @@ void flyGame::updateObjectMovement()
 		tornado.setX(rand() % (GAME_WIDTH * 2)+(GAME_WIDTH));
 		tornado.setY(rand() % (GAME_HEIGHT/2)+10);
 	}
+	if (buffInvulnerable.getX() < -1000)
+	{
+		buffInvulnerable.setX(rand() % (GAME_WIDTH * 10) + (GAME_WIDTH));
+		buffInvulnerable.setY(rand() % (GAME_HEIGHT / 2) + 10);
+		buffInvulnerable.setVisible(true);
+	}
+
+	if (speedBuff.getX() < -1000)
+	{
+		speedBuff.setX(rand() % (GAME_WIDTH * 5) + (GAME_WIDTH));
+		speedBuff.setY(rand() % (GAME_HEIGHT / 2) + 10);
+		speedBuff.setVisible(true);
+	}
 }
 
 void flyGame::updateObjFrameTime()
@@ -353,16 +391,29 @@ void flyGame::updateObjFrameTime()
 	spiderWeb.update(frameTime);
 	fly.update(frameTime);
 	tornado.update(frameTime);
+	buffInvulnerable.update(frameTime);
+	speedBuff.update(frameTime);
 }
 
 void flyGame::resetObjects()
 {
+	spiderWeb.setVisible(false);
+	fly.setVisible(false);
+	for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
+	{
+		spitball[i].setVisible(false);
+	}
 	for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
 	{
 		spitball[i].update(frameTime);
 		spitball[i].setX(GAME_WIDTH);
 		spitball[i].setY(rand() % (GAME_HEIGHT)+1);
 	}
+	speedBuff.setX(rand() % (GAME_WIDTH * 5) + (GAME_WIDTH));
+	speedBuff.setY(rand() % (GAME_HEIGHT / 2) + 10);
+	buffInvulnerable.setX(rand() % (GAME_WIDTH * 10) + (GAME_WIDTH));
+	buffInvulnerable.setY(rand() % (GAME_HEIGHT / 2) + 10);
+	tornado.setX(GAME_WIDTH);
 }
 //=============================================================================
 // Artificial Intelligence
@@ -404,7 +455,18 @@ void flyGame::collisions()
 	{
 		player.setStatus(1);
 		buffInvulnerable.setVisible(false);
+		buffTime = time(0);
+		begin = clock();
 	}
+	if (player.collidesWith(speedBuff, collisionVector) && speedBuff.getVisible() == true)
+	{
+		player.setStatus(3);
+		speedBuff.setVisible(false);
+		buffTime = time(0);
+		begin = clock();
+		
+	}
+
 }
 
 void flyGame::gameOver()
@@ -414,12 +476,6 @@ void flyGame::gameOver()
 	//player.setVisible(false);
 	player.flipVertical(true);
 	objectPoints = 0;
-	/*spiderWeb.setVisible(false);
-	fly.setVisible(false);*/
-	//for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
-	//{
-	//	spitball[i].setVisible(false);
-	//}
 	control = false;
 	player.setStatus(2);
 }
@@ -452,17 +508,18 @@ void flyGame::render()
 		fly.draw();
 		tornado.draw();
 		buffInvulnerable.draw();
+		speedBuff.draw();
 		for (int i = 0; i < (sizeof(spitball) / sizeof(spitBall)); i++)
 		{
 			spitball[i].draw();
 		}
 		dxFontMedium->setFontColor(graphicsNS::WHITE);
-		dxFontMedium->print(to_string(displayTimer()), 0, 20);
+		dxFontMedium->print(to_string((int)displayTimer()), 0, 20);
 		//_snprintf_s(buffer, BUF_SIZE, "Test");
 		//dxFont->print(buffer, GAME_WIDTH - 200, GAME_HEIGHT - 100);
 		if (player.returnStatus() == 1)
 		{
-			_snprintf_s(buffer, BUF_SIZE, "Invulnerable");
+			_snprintf_s(buffer, BUF_SIZE, "         Invulnerable", (int)displayDifference());
 			dxFont->print(buffer, GAME_WIDTH / 4, GAME_HEIGHT / 2);
 		}
 
@@ -471,6 +528,13 @@ void flyGame::render()
 			_snprintf_s(buffer, BUF_SIZE, "Game Over, Press Enter to return");
 			dxFont->print(buffer, GAME_WIDTH / 4, GAME_HEIGHT / 2);
 		}
+
+		if (player.returnStatus() == 3)
+		{
+			_snprintf_s(buffer, BUF_SIZE, "         Speed UP! %d", (int)displayDifference());
+			dxFont->print(buffer, GAME_WIDTH / 4, GAME_HEIGHT / 2);
+		}
+
 		//dxFontMedium->print(displayStatus(), GAME_WIDTH/2, GAME_HEIGHT/2);
 		//dxFontMedium->print(to_string(displayTimer()), 0, 120);
 	}
@@ -527,5 +591,12 @@ void flyGame::resetAll()
 }
 
 float flyGame::displayTimer(){
-	return frameTime;
+	return (float)scorePoint;
+}
+
+float flyGame::displayDifference(){
+	end = clock();
+	elapsed_secs = int(end - begin) / CLOCKS_PER_SEC;
+	return buffTimer - elapsed_secs;
+
 }

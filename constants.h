@@ -61,8 +61,9 @@ const char FROG_IMAGE[] = "pictures\\frog.png";
 const char SPITBALL_IMAGE[] = "pictures\\Spitball.png";
 const char SPIDERWEB_IMAGE[] = "pictures\\spiderweb.png";
 const char FLY_IMAGE[] = "pictures\\fly.png";
-const char TORNADO_IMAGE[] = "pictures\\fanwing.png";
+const char TORNADO_IMAGE[] = "pictures\\fanwind.png";
 const char Invulnerable_IMAGE[] = "pictures\\Cucumber Maki.png";
+const char SPEED_IMAGE[] = "pictures\\buffSpeed.png";
 
 // Player
 const int  FLY_START_FRAME = 0;         // starting frame of ship animation

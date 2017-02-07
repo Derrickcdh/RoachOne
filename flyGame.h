@@ -18,6 +18,7 @@
 #include "Fly.h"
 #include "Tornado.h"
 #include "invulnerable.h"
+#include "speedUp.h"
 using namespace std;
 
 #define VK_0 0x30
@@ -46,6 +47,7 @@ private:
 	TextureManager flyTexture;
 	TextureManager TornadoTexture;
 	TextureManager buffInvulnerabletexture;
+	TextureManager speedBuffTexture;
 	Image   background;                 // nebula image
 	Image   backgrounds;                 // nebula image
 	Image   menu;                 // menu image
@@ -55,7 +57,8 @@ private:
 	Image	playerImage;
 	Image	frog;
 	Image	TornadoImage;
-
+	
+	SpeedUp speedBuff;
 	Invulnerable	buffInvulnerable;
 	Player player;
 	SpiderWeb spiderWeb;
@@ -63,7 +66,7 @@ private:
 	Fly fly;
 	Tornado tornado;
 	//timer
-	int timer = 60;
+	float buffTimer = 3;
 	int elapsed_secs = 0;
 
 	int gameStart = 0;
@@ -96,6 +99,7 @@ public:
 	void gameOver();
 	void slowPlayer();
 	void updateObjFrameTime();
+	float displayDifference();
 };
 
 #endif
