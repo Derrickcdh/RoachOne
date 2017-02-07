@@ -1,7 +1,7 @@
 //  Module:             GamePlay Programming
 //  Assignment2:        Roach One
-//  Student Name:       Choong Di Han Derrick, Andre hiu yuan xiang, ting hong yang
-//  Student Number:     S10161350, S10127976, S10159859
+//  Student Name:       Choong Di Han Derrick, Andre hiu yuan xiang, Ting hong yang
+//  Student Number:     S10161350, S10159859, S10127976
 
 #ifndef _CONSTANTS_H            // prevent multiple definitions if this 
 #define _CONSTANTS_H            // ..file is included in more than one place
@@ -54,15 +54,14 @@ const char BACKGROUND_IMAGE[] = "pictures\\background.png";
 const char BACKGROUNDS_IMAGE[] = "pictures\\background.png";
 const char ROACHONE_MENU[] = "pictures\\RoachOne.jpg";
 const char GAMEMODE_IMAGE[] = "pictures\\Intro&GameMode.jpg";
-const char MODE1_IMAGE[] = "pictures\\gamemode1.jpg";
-const char MODE2_IMAGE[] = "pictures\\gamemode2.jpg";
 const char PLAYER_IMAGE[] = "pictures\\cockroach.png";
+const char FROGTONGUE_IMAGE[] = "pictures\\frogtongue.png";
 const char FROG_IMAGE[] = "pictures\\frog.png";
 const char SPITBALL_IMAGE[] = "pictures\\Spitball.png";
 const char SPIDERWEB_IMAGE[] = "pictures\\spiderweb.png";
 const char FLY_IMAGE[] = "pictures\\fly.png";
 const char TORNADO_IMAGE[] = "pictures\\fanwind.png";
-const char Invulnerable_IMAGE[] = "pictures\\Cucumber Maki.png";
+const char Invulnerable_IMAGE[] = "pictures\\buffInvulnerable.png";
 const char SPEED_IMAGE[] = "pictures\\buffSpeed.png";
 
 // Player
