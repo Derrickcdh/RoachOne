@@ -472,19 +472,20 @@ void flyGame::collisions()
 		{
 			gameOver();
 		}
-		if (player.collidesWith(tornado, collisionVector) && tornado.getVisible() == true)
-		{
-			slowPlayer();
-		}
+		
 	}
-	if (player.collidesWith(buffInvulnerable, collisionVector) && buffInvulnerable.getVisible() == true)
+	if (player.collidesWith(tornado, collisionVector) && tornado.getVisible() == true)
+	{
+		slowPlayer();
+	}
+	if (player.collidesWith(buffInvulnerable, collisionVector) && buffInvulnerable.getVisible() == true && player.returnStatus() != 2)
 	{
 		player.setStatus(1);
 		buffInvulnerable.setVisible(false);
 		buffTime = time(0);
 		begin = clock();
 	}
-	if (player.collidesWith(speedBuff, collisionVector) && speedBuff.getVisible() == true)
+	if (player.collidesWith(speedBuff, collisionVector) && speedBuff.getVisible() == true && player.returnStatus()!=2)
 	{
 		player.setStatus(3);
 		speedBuff.setVisible(false);
@@ -540,9 +541,10 @@ void flyGame::render()
 		}
 		dxFontMedium->setFontColor(graphicsNS::WHITE);
 		dxFontMedium->print(to_string((int)displayTimer()), 0, 20);
-		
+		dxFont->setFontColor(graphicsNS::BLACK);
 		if (player.returnStatus() == 1)
 		{
+			
 			_snprintf_s(buffer, BUF_SIZE, "         Invulnerable %d", (int)displayDifference());
 			dxFont->print(buffer, GAME_WIDTH / 4, GAME_HEIGHT / 2);
 		}
@@ -583,7 +585,9 @@ void flyGame::releaseAll()
 	spitballTexture.onLostDevice();
 	flyTexture.onLostDevice();
 	spiderWebTexture.onLostDevice();
-
+	TornadoTexture.onLostDevice();
+	speedBuffTexture.onLostDevice();
+	buffInvulnerabletexture.onLostDevice();
 	Game::releaseAll();
 	return;
 }
@@ -602,7 +606,9 @@ void flyGame::resetAll()
 	//frogTexture.onResetDevice();
 	spitballTexture.onResetDevice();
 	flyTexture.onResetDevice();
-
+	TornadoTexture.onResetDevice();
+	speedBuffTexture.onResetDevice();
+	buffInvulnerabletexture.onResetDevice();
 	Game::resetAll();
 	return;
 }
@@ -616,4 +622,18 @@ float flyGame::displayDifference(){
 	elapsed_secs = int(end - begin) / CLOCKS_PER_SEC;
 	return buffTimer - elapsed_secs;
 
+}
+
+int getHiscore(int score)
+{
+	char currentHiscoreArray[10];
+	int currentHiscore;
+	fstream myfile;
+	myfile.open("hiscore.txt");
+	if (myfile.is_open())
+	{
+		myfile.getline(currentHiscoreArray, 128);
+
+		return 0;
+	}
 }

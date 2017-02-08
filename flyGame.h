@@ -20,6 +20,7 @@
 #include "Tornado.h"
 #include "invulnerable.h"
 #include "speedUp.h"
+#include <fstream>
 using namespace std;
 
 #define VK_0 0x30
@@ -67,7 +68,7 @@ private:
 	Tornado tornado;
 
 	//timer
-	float buffTimer = 3;
+	float buffTimer = 5;
 	int elapsed_secs = 0;
 
 	int gameStart = 0;
@@ -102,6 +103,7 @@ public:
 	void slowPlayer();
 	void updateObjFrameTime();
 	float displayDifference();
+	int getHiscore(int score);
 };
 
 #endif

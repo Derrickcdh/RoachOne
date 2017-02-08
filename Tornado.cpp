@@ -17,7 +17,7 @@ Tornado::Tornado() : Entity()
 	velocity.y = 100;                             // velocity Y
 	mass = TornadoNS::MASS;
 	collisionType = entityNS::CIRCLE;
-	radius = TornadoNS::WIDTH / 2.0;
+	radius = TornadoNS::WIDTH/2;
 	spriteData.scale = 1;
 }
 //=============================================================================
