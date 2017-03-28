@@ -63,6 +63,14 @@ const char FLY_IMAGE[] = "pictures\\fly.png";
 const char TORNADO_IMAGE[] = "pictures\\fanwind.png";
 const char Invulnerable_IMAGE[] = "pictures\\buffInvulnerable.png";
 const char SPEED_IMAGE[] = "pictures\\buffSpeed.png";
+const char CREDITS_IMAGE[] = "pictures\\Credits.png";
+const char HOSTILE_IMAGE[] = "pictures\\Hostiles.png";
+const char POWERUP_IMAGE[] = "pictures\\PowerUps.png";
+const char RIGHT_IMAGE[] = "pictures\\computer_key_Arrow_Right.png";
+const char LEFT_IMAGE[] = "pictures\\computer_key_Arrow_Left.png";
+const char ENTER_IMAGE[] = "pictures\\computer_key_Enter.png";
+const char NUMKEY2_IMAGE[] = "pictures\\computer_key_num_row_2.png";
+
 
 // Player
 const int  FLY_START_FRAME = 0;         // starting frame of ship animation

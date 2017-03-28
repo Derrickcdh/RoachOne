@@ -49,6 +49,13 @@ private:
 	TextureManager TornadoTexture;
 	TextureManager buffInvulnerabletexture;
 	TextureManager speedBuffTexture;
+	TextureManager creditsTexture;
+	TextureManager enterTexture;
+	TextureManager num2Texture;
+	TextureManager hostileTexture;
+	TextureManager powerTexture;
+	TextureManager rightTexture;
+	TextureManager leftTexture;
 
 	Image   background;                 // nebula image
 	Image   backgrounds;                 // nebula image
@@ -57,8 +64,14 @@ private:
 	Image	playerImage;
 	Image	frog;
 	Image	TornadoImage;
-	
+	Image	credits;
+	Image	enter;
+	Image hostile;
+	Image power;
+	Image left;
+	Image right;
 	SpeedUp speedBuff;
+	Image	num2;
 	Invulnerable	buffInvulnerable;
 	FrogTongue	frogtongue;
 	Player player;
@@ -103,7 +116,7 @@ public:
 	void slowPlayer();
 	void updateObjFrameTime();
 	float displayDifference();
-	int getHiscore(int score);
+	int getHiscore();
 };
 
 #endif

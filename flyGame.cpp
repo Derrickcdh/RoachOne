@@ -5,6 +5,8 @@
 
 #include "flyGame.h"
 #include <stdlib.h>     /* srand, rand */
+#include <iostream>
+#include <fstream>
 
 time_t start;		// timer
 int gameStart = 0;	//gameMode
@@ -14,6 +16,11 @@ int webPoints;
 bool control;
 time_t buffTime;
 float bTime;
+int tip = 0;
+int buttonScale = 0;
+bool scaleType;
+float scaleNum = 1.0;
+int highscore;
 
 //double seconds;
 //=============================================================================
@@ -58,6 +65,34 @@ void flyGame::initialize(HWND hwnd)
 	// backgrounds
 	if (!backgrounds.initialize(graphics, 0, 0, 0, &backgroundsTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing backgrounds"));
+
+
+	// backgrounds texture
+	if (!enterTexture.initialize(graphics, ENTER_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing backgrounds texture"));
+
+	// backgrounds
+	if (!enter.initialize(graphics, 0, 0, 0, &enterTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing backgrounds"));
+
+
+	// backgrounds texture
+	if (!num2Texture.initialize(graphics, NUMKEY2_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing backgrounds texture"));
+
+	// backgrounds
+	if (!num2.initialize(graphics, 0, 0, 0, &num2Texture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing backgrounds"));
+
+	//credits
+	// credits 1 texture
+	if (!creditsTexture.initialize(graphics, CREDITS_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing buff texture"));
+
+	// credits 1
+	if (!credits.initialize(graphics, 0, 0, 0, &creditsTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing buff"));
+
 
 	// fly texture
 	if (!playerTexture.initialize(graphics, PLAYER_IMAGE))
@@ -150,14 +185,46 @@ void flyGame::initialize(HWND hwnd)
 	if (!buffInvulnerable.initialize(this, InvulnerableNS::WIDTH, InvulnerableNS::HEIGHT, 0, &buffInvulnerabletexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing buff"));
 
-	// buff 1 texture
+	// speed buff 1 texture
 	if (!speedBuffTexture.initialize(graphics, SPEED_IMAGE))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing buff texture"));
 
-	// buff 1
+	// speed buff 1
 	if (!speedBuff.initialize(this, InvulnerableNS::WIDTH, InvulnerableNS::HEIGHT, 0, &speedBuffTexture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing buff"));
 
+	// Tips
+	if (!hostileTexture.initialize(graphics, HOSTILE_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing buff texture"));
+
+	// Tips
+	if (!hostile.initialize(graphics, 0, 0, 0, &hostileTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing buff"));
+
+	// Tips
+	if (!powerTexture.initialize(graphics, POWERUP_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing buff texture"));
+
+	// Tips
+	if (!power.initialize(graphics, 0, 0, 0, &powerTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing buff"));
+
+	// Tips arrows
+	if (!rightTexture.initialize(graphics, RIGHT_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing right texture"));
+
+	// Tips arrows
+	if (!right.initialize(graphics, 0, 0, 0, &rightTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing right"));
+
+
+	// Tips arrows
+	if (!leftTexture.initialize(graphics, LEFT_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing left texture"));
+
+	// Tips arrows
+	if (!left.initialize(graphics, 0, 0, 0, &leftTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing left"));
 
 	background.setX(GAME_WIDTH / GAME_WIDTH);
 	backgrounds.setX(GAME_WIDTH / 1);
@@ -196,6 +263,26 @@ void flyGame::initialize(HWND hwnd)
 	speedBuff.setY((rand() % (GAME_HEIGHT / 10) + 10) * 10);
 	speedBuff.setY(GAME_HEIGHT/2);
 	speedBuff.setX(GAME_WIDTH);
+	enter.setX(GAME_WIDTH / 1.6);
+	enter.setY(GAME_HEIGHT / 1.7);
+	num2.setY(GAME_HEIGHT / 9.5);
+	num2.setX(GAME_WIDTH / 1.4);
+
+	power.setY(GAME_HEIGHT / 4.01);
+	power.setX(0);
+	hostile.setY(GAME_HEIGHT/4.01);
+	hostile.setX(0);
+
+	right.setY(GAME_HEIGHT / 3.5);
+	right.setX(GAME_WIDTH / 3);
+	left.setY(GAME_HEIGHT / 3.5);
+	left.setX(GAME_WIDTH / 3);
+
+
+	hostile.setVisible(true);
+	power.setVisible(false);
+	right.setVisible(true);
+	left.setVisible(false);
 }
 
 //=============================================================================
@@ -205,6 +292,14 @@ void flyGame::update()
 {
 	if (input->isKeyDown(VK_RETURN) && gameStart == 0)            // Game start level 1, 
 	{
+		fstream file1("pictures\\highscore.txt");
+		int scores;
+		while (!file1.eof())
+		{
+			file1 >> scores;
+		}
+		file1.close();
+		highscore = (int)scores;
 		gameStart = 3;		//set the game mode
 	}
 	if (input->isKeyDown(VK_SPACE) && gameStart == 3)
@@ -233,6 +328,33 @@ void flyGame::update()
 		PlaySound(TEXT("pictures\\Wind.wav"), NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
 		}*/
 	}
+	
+	if (input->isKeyDown(VK_RIGHT) && gameStart == 3 && tip == 0)
+	{
+		tip = 1;
+		hostile.setVisible(false);
+		power.setVisible(true);
+		right.setVisible(false);
+		left.setVisible(true);
+	}
+	if (input->isKeyDown(VK_LEFT) && gameStart == 3 && tip == 1)
+	{
+		tip = 0;
+		hostile.setVisible(true);
+		power.setVisible(false);
+		right.setVisible(true);
+		left.setVisible(false);
+	}
+
+	if (input->isKeyDown(VK_2) && gameStart == 3)
+	{
+		gameStart = 4;
+	}
+	if (input->isKeyDown(VK_RETURN) && gameStart == 4)
+	{
+		gameStart = 3;
+	}
+
 	if (gameStart == 1 && control == true)
 	{
 		if (gameStart == 1 && input->isKeyDown(VK_SPACE))
@@ -285,6 +407,65 @@ void flyGame::update()
 			gameStart = 0;
 			elapsed_secs = 0;
 			player.setStatus(0);
+		}
+	}
+
+	if (gameStart == 3)
+	{
+		if (gameStart == 3)
+		{
+			if (scaleType == true)
+			{
+				buttonScale++;
+				scaleNum = scaleNum - 0.0002;
+				right.setScale(scaleNum);
+				left.setScale(scaleNum);
+			}
+			if (scaleType == false)
+			{
+				buttonScale--;
+				scaleNum = scaleNum + 0.0002;
+				right.setScale(scaleNum);
+				left.setScale(scaleNum);
+			}
+			/*if (buttonScale == 5)
+			{
+				right.setScale(0.98);
+				left.setScale(0.98);
+			}
+			if (buttonScale == 10)
+			{
+				right.setScale(0.9);
+				left.setScale(0.9);
+			}
+			else if (buttonScale == 15)
+			{
+				right.setScale(0.85);
+				left.setScale(0.85);
+			}
+			else if (buttonScale == 20)
+			{
+				right.setScale(0.8);
+				left.setScale(0.8);
+			}
+			else if (buttonScale == 25)
+			{
+				right.setScale(0.75);
+				left.setScale(0.75);
+			}
+			else if (buttonScale == 30)
+			{
+				right.setScale(0.70);
+				left.setScale(0.70);
+			}*/
+			if (buttonScale > 50)
+			{
+				scaleType = false;
+			}
+			if (buttonScale <= 0)
+			{
+				scaleType = true;
+			}
 		}
 	}
 }
@@ -502,6 +683,17 @@ void flyGame::gameOver()
 	objectPoints = 0;
 	control = false;
 	player.setStatus(2);
+	if (scorePoint > highscore)
+	{
+		ofstream myfile("pictures\\highscore.txt");
+		if (myfile.is_open())
+		{
+			myfile << scorePoint;
+			myfile.close();
+		}
+		else cout << "Unable to open file";
+		
+	}
 }
 
 void flyGame::slowPlayer()
@@ -521,6 +713,7 @@ void flyGame::render()
 	if (gameStart == 0)//render main menu
 	{
 		menu.draw();
+		enter.draw();
 	}
 	if (gameStart == 1) // render level one sprites
 	{
@@ -565,6 +758,18 @@ void flyGame::render()
 	if (gameStart == 3) // game mode screen
 	{
 		gamemode.draw();
+		num2.draw();
+		hostile.draw();
+		power.draw();
+		right.draw();
+		left.draw();
+		_snprintf_s(buffer, BUF_SIZE, "High Score: %d", highscore);
+		dxFont->print(buffer, GAME_WIDTH / 1.8, GAME_HEIGHT / 4);
+
+	}
+	if (gameStart == 4) // game mode screen
+	{
+		credits.draw();
 	}
 
 	graphics->spriteEnd();                  // end drawing sprites
@@ -588,6 +793,7 @@ void flyGame::releaseAll()
 	TornadoTexture.onLostDevice();
 	speedBuffTexture.onLostDevice();
 	buffInvulnerabletexture.onLostDevice();
+	creditsTexture.onLostDevice();
 	Game::releaseAll();
 	return;
 }
@@ -609,6 +815,7 @@ void flyGame::resetAll()
 	TornadoTexture.onResetDevice();
 	speedBuffTexture.onResetDevice();
 	buffInvulnerabletexture.onResetDevice();
+	creditsTexture.onResetDevice();
 	Game::resetAll();
 	return;
 }
@@ -624,16 +831,29 @@ float flyGame::displayDifference(){
 
 }
 
-int getHiscore(int score)
-{
-	char currentHiscoreArray[10];
-	int currentHiscore;
-	fstream myfile;
-	myfile.open("hiscore.txt");
-	if (myfile.is_open())
-	{
-		myfile.getline(currentHiscoreArray, 128);
-
-		return 0;
-	}
-}
+//int getHiscore()
+//{
+//	char currentHiscoreArray[15];
+//	int currentHiscore;
+//	fstream myfile;
+//	myfile.open("pictures\\highscore.txt");
+//	if (myfile.is_open())
+//	{
+//		myfile.getline(currentHiscoreArray, 128);
+//		currentHiscore = (int)currentHiscoreArray;
+//		return currentHiscore;
+//	}
+//	else return 0;
+//}
+//
+//int getHiscore()
+//{
+//	fstream file1("pictures\\highscore.txt");
+//	char scores;
+//	while (!file1.eof())
+//	{
+//		file1 >> scores;
+//	}
+//	file1.close();
+//	return (int)scores;
+//}
