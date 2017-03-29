@@ -38,6 +38,11 @@ private:
 	// variables
 	TextureManager backgroundTexture;   // nebula texture
 	TextureManager backgroundsTexture;   // nebula texture
+	TextureManager background1Texture;   // nebula texture
+	TextureManager backgrounds1Texture;   // nebula texture
+	TextureManager background2Texture;   // nebula texture
+	TextureManager backgrounds2Texture;   // nebula texture
+
 	TextureManager menuTexture;   // menu texture
 	TextureManager gamemodeTexture;
 	TextureManager playerTexture;
@@ -56,9 +61,12 @@ private:
 	TextureManager powerTexture;
 	TextureManager rightTexture;
 	TextureManager leftTexture;
-
 	Image   background;                 // nebula image
 	Image   backgrounds;                 // nebula image
+	Image   background1;                 // nebula image
+	Image   backgrounds1;                 // nebula image
+	Image   background2;                 // nebula image
+	Image   backgrounds2;                 // nebula image
 	Image   menu;                 // menu image
 	Image	gamemode;
 	Image	playerImage;

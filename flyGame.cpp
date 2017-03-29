@@ -21,6 +21,7 @@ int buttonScale = 0;
 bool scaleType;
 float scaleNum = 1.0;
 int highscore;
+int backgroundR = 0;
 
 //double seconds;
 //=============================================================================
@@ -64,6 +65,43 @@ void flyGame::initialize(HWND hwnd)
 
 	// backgrounds
 	if (!backgrounds.initialize(graphics, 0, 0, 0, &backgroundsTexture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing backgrounds"));
+
+
+	// background 1
+
+	// background texture
+	if (!background1Texture.initialize(graphics, BACKGROUND1_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing background texture"));
+
+	// background
+	if (!background1.initialize(graphics, 0, 0, 0, &background1Texture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing background"));
+
+	// backgrounds texture
+	if (!backgrounds1Texture.initialize(graphics, BACKGROUNDS1_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing backgrounds texture"));
+
+	// backgrounds
+	if (!backgrounds1.initialize(graphics, 0, 0, 0, &backgrounds1Texture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing backgrounds"));
+
+	//background 2
+
+	// background texture
+	if (!background2Texture.initialize(graphics, BACKGROUND2_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing background texture"));
+
+	// background
+	if (!background2.initialize(graphics, 0, 0, 0, &background2Texture))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing background"));
+
+	// backgrounds texture
+	if (!backgrounds2Texture.initialize(graphics, BACKGROUNDS2_IMAGE))
+		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing backgrounds texture"));
+
+	// backgrounds
+	if (!backgrounds2.initialize(graphics, 0, 0, 0, &backgrounds2Texture))
 		throw(GameError(gameErrorNS::FATAL_ERROR, "Error initializing backgrounds"));
 
 
@@ -252,18 +290,19 @@ void flyGame::initialize(HWND hwnd)
 	}
 	spiderWeb.setVisible(false);
 	spiderWeb.setY((rand() % (GAME_HEIGHT / 10) + 1) * 10);
-	fly.setX(GAME_WIDTH);
+	spiderWeb.setX(GAME_WIDTH * 8);
+	fly.setX(GAME_WIDTH*3);
 
-	tornado.setY((rand() % (GAME_HEIGHT / 10) + 1) * 10);
+	tornado.setY((rand() % (GAME_HEIGHT / 10) + 1) * 20);
 	tornado.setX(GAME_WIDTH);
 
 	buffInvulnerable.setY((rand() % (GAME_HEIGHT / 10) + 1) * 10);
-	buffInvulnerable.setX(GAME_WIDTH);
+	buffInvulnerable.setX(GAME_WIDTH*10);
 
 	speedBuff.setY((rand() % (GAME_HEIGHT / 10) + 10) * 10);
 	speedBuff.setY(GAME_HEIGHT/2);
-	speedBuff.setX(GAME_WIDTH);
-	enter.setX(GAME_WIDTH / 1.6);
+	speedBuff.setX(GAME_WIDTH*3);
+	enter.setX(GAME_WIDTH / 1.5);
 	enter.setY(GAME_HEIGHT / 1.7);
 	num2.setY(GAME_HEIGHT / 9.5);
 	num2.setX(GAME_WIDTH / 1.4);
@@ -283,6 +322,10 @@ void flyGame::initialize(HWND hwnd)
 	power.setVisible(false);
 	right.setVisible(true);
 	left.setVisible(false);
+	background1.setVisible(false);
+	backgrounds1.setVisible(false);
+	background2.setVisible(false);
+	backgrounds2.setVisible(false);
 }
 
 //=============================================================================
@@ -301,6 +344,7 @@ void flyGame::update()
 		file1.close();
 		highscore = (int)scores;
 		gameStart = 3;		//set the game mode
+		backgroundR = 0;
 	}
 	if (input->isKeyDown(VK_SPACE) && gameStart == 3)
 	{
@@ -409,63 +453,52 @@ void flyGame::update()
 			player.setStatus(0);
 		}
 	}
-
+	if (gameStart == 0)
+	{
+		if (scaleType == true)
+		{
+			buttonScale++;
+			scaleNum = scaleNum - 0.0002;
+			enter.setScale(scaleNum);
+		}
+		if (scaleType == false)
+		{
+			buttonScale--;
+			scaleNum = scaleNum + 0.0002;
+			enter.setScale(scaleNum);
+		}
+		if (buttonScale > 50)
+		{
+			scaleType = false;
+		}
+		if (buttonScale <= 0)
+		{
+			scaleType = true;
+		}
+	}
 	if (gameStart == 3)
 	{
-		if (gameStart == 3)
+		if (scaleType == true)
 		{
-			if (scaleType == true)
-			{
-				buttonScale++;
-				scaleNum = scaleNum - 0.0002;
-				right.setScale(scaleNum);
-				left.setScale(scaleNum);
-			}
-			if (scaleType == false)
-			{
-				buttonScale--;
-				scaleNum = scaleNum + 0.0002;
-				right.setScale(scaleNum);
-				left.setScale(scaleNum);
-			}
-			/*if (buttonScale == 5)
-			{
-				right.setScale(0.98);
-				left.setScale(0.98);
-			}
-			if (buttonScale == 10)
-			{
-				right.setScale(0.9);
-				left.setScale(0.9);
-			}
-			else if (buttonScale == 15)
-			{
-				right.setScale(0.85);
-				left.setScale(0.85);
-			}
-			else if (buttonScale == 20)
-			{
-				right.setScale(0.8);
-				left.setScale(0.8);
-			}
-			else if (buttonScale == 25)
-			{
-				right.setScale(0.75);
-				left.setScale(0.75);
-			}
-			else if (buttonScale == 30)
-			{
-				right.setScale(0.70);
-				left.setScale(0.70);
-			}*/
-			if (buttonScale > 50)
-			{
-				scaleType = false;
-			}
-			if (buttonScale <= 0)
-			{
-				scaleType = true;
-			}
+			buttonScale++;
+			scaleNum = scaleNum - 0.0002;
+			right.setScale(scaleNum);
+			left.setScale(scaleNum);
+		}
+		if (scaleType == false)
+		{
+			buttonScale--;
+			scaleNum = scaleNum + 0.0002;
+			right.setScale(scaleNum);
+			left.setScale(scaleNum);
+		}
+		if (buttonScale > 50)
+		{
+			scaleType = false;
+		}
+		if (buttonScale <= 0)
+		{
+			scaleType = true;
 		}
 	}
 }
@@ -522,18 +555,53 @@ void flyGame::selectObject()
 
 void flyGame::updateObjectMovement()
 {
+	
 	background.setX(background.getX() - frameTime * FLY_SPEED);
 	backgrounds.setX(backgrounds.getX() - frameTime * FLY_SPEED);
-	scorePoint++;
-
+	background1.setX(background.getX() - frameTime * FLY_SPEED);
+	backgrounds1.setX(backgrounds.getX() - frameTime * FLY_SPEED);
+	background2.setX(background.getX() - frameTime * FLY_SPEED);
+	backgrounds2.setX(backgrounds.getX() - frameTime * FLY_SPEED);
 	if (backgrounds.getX() <= 0)
 	{
 		background.setX(GAME_WIDTH / GAME_WIDTH);
 		backgrounds.setX(GAME_WIDTH / 1);
 		objectPoints += 1;
 		selectObject();
+		backgroundR++;
 	}
-
+	if (backgroundR == 3)
+	{
+		backgrounds.setVisible(false);
+		backgrounds1.setVisible(true);
+	}
+	if (backgroundR == 4)
+	{
+		background.setVisible(false);
+		background1.setVisible(true);
+	}
+	if (backgroundR == 7)
+	{
+		backgrounds1.setVisible(false);
+		backgrounds2.setVisible(true);
+	}
+	if (backgroundR == 8)
+	{
+		background1.setVisible(false);
+		background2.setVisible(true);
+	}
+	if (backgroundR == 11)
+	{
+		backgrounds2.setVisible(false);
+		backgrounds.setVisible(true);
+	}
+	if (backgroundR == 12)
+	{
+		background2.setVisible(false);
+		background.setVisible(true);
+		backgroundR = -1;
+	}
+	scorePoint++;
 	/*if (frogtongue.getX() < -1025)
 	{
 		frogtongue.setVisible(false);
@@ -616,7 +684,7 @@ void flyGame::resetObjects()
 	speedBuff.setY(rand() % (GAME_HEIGHT / 2) + 10);
 	buffInvulnerable.setX(rand() % (GAME_WIDTH * 10) + (GAME_WIDTH));
 	buffInvulnerable.setY(rand() % (GAME_HEIGHT / 2) + 10);
-	tornado.setX(GAME_WIDTH);
+	tornado.setX(GAME_WIDTH*10);
 }
 //=============================================================================
 // Artificial Intelligence
@@ -661,14 +729,14 @@ void flyGame::collisions()
 	}
 	if (player.collidesWith(buffInvulnerable, collisionVector) && buffInvulnerable.getVisible() == true && player.returnStatus() != 2)
 	{
-		player.setStatus(1);
+		player.setStatus(3);
 		buffInvulnerable.setVisible(false);
 		buffTime = time(0);
 		begin = clock();
 	}
 	if (player.collidesWith(speedBuff, collisionVector) && speedBuff.getVisible() == true && player.returnStatus()!=2)
 	{
-		player.setStatus(3);
+		player.setStatus(1);
 		speedBuff.setVisible(false);
 		buffTime = time(0);
 		begin = clock();
@@ -719,6 +787,10 @@ void flyGame::render()
 	{
 		background.draw();
 		backgrounds.draw();
+		background1.draw();
+		backgrounds1.draw();
+		background2.draw();
+		backgrounds2.draw();
 		player.draw();
 		//frogtongue.draw();
 		//frog.draw();
@@ -765,6 +837,9 @@ void flyGame::render()
 		left.draw();
 		_snprintf_s(buffer, BUF_SIZE, "High Score: %d", highscore);
 		dxFont->print(buffer, GAME_WIDTH / 1.8, GAME_HEIGHT / 4);
+
+		_snprintf_s(buffer, BUF_SIZE, "Press SPACE to Start");
+		dxFont->print(buffer, GAME_WIDTH / 1.7, GAME_HEIGHT /1.1);
 
 	}
 	if (gameStart == 4) // game mode screen

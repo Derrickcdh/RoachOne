@@ -16,7 +16,7 @@ spitBall::spitBall() : Entity()
 	spriteData.rect.right = spitballNS::WIDTH;
 	velocity.x = 150;                             // velocity X
 	velocity.y = 0;                             // velocity Y
-	radius = spitballNS::WIDTH / 2.0;
+	radius = spitballNS::WIDTH / 1.4;
 	mass = spitballNS::MASS;
 	collisionType = entityNS::CIRCLE;
 	spriteData.scale = 1;

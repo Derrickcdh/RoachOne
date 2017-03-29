@@ -49,9 +49,14 @@ const UCHAR ESC_KEY      = VK_ESCAPE;   // escape key
 const UCHAR ALT_KEY      = VK_MENU;     // Alt key
 const UCHAR ENTER_KEY    = VK_RETURN;   // Enter key
 
+
 // graphic images
 const char BACKGROUND_IMAGE[] = "pictures\\background.png";
 const char BACKGROUNDS_IMAGE[] = "pictures\\background.png";
+const char BACKGROUND1_IMAGE[] = "pictures\\background3.png";
+const char BACKGROUNDS1_IMAGE[] = "pictures\\background3.png";
+const char BACKGROUND2_IMAGE[] = "pictures\\background2.png";
+const char BACKGROUNDS2_IMAGE[] = "pictures\\background2.png";
 const char ROACHONE_MENU[] = "pictures\\RoachOne.jpg";
 const char GAMEMODE_IMAGE[] = "pictures\\Intro&GameMode.jpg";
 const char PLAYER_IMAGE[] = "pictures\\cockroach.png";
