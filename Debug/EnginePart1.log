@@ -1,52 +1,51 @@
-﻿Build started 28-Mar-17 9:33:14 PM.
+﻿Build started 29-Mar-17 9:19:47 PM.
      1>Project "C:\Users\Derricks\Desktop\RoachOne-master\EnginePart1.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\Include" /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt flyGame.cpp
          flyGame.cpp
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(246): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(247): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(250): warning C4244: 'argument' : conversion from 'int' to 'FLOAT', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(254): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(255): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(257): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(258): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(260): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(261): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(263): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(265): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(267): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(268): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(269): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(271): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(273): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(276): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(278): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(378): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(420): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(427): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(480): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(481): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(496): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(504): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(505): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(554): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(555): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(564): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(565): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(570): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(571): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(575): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(576): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(582): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(583): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(612): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(613): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(615): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(616): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(617): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(618): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(619): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
-     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(767): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(284): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(285): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(288): warning C4244: 'argument' : conversion from 'int' to 'FLOAT', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(292): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(296): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(297): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(299): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(302): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(305): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(306): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(307): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(308): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(310): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(312): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(315): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(317): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(421): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(460): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(466): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(483): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(490): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(512): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(513): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(528): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(536): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(537): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(621): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(622): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(631): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(632): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(637): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(638): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(642): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(643): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(649): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(650): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(679): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(680): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(682): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(683): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(684): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(685): warning C4244: 'argument' : conversion from 'const UINT' to 'float', possible loss of data
+     1>c:\users\derricks\desktop\roachone-master\flygame.cpp(838): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Derricks\Desktop\RoachOne-master\Debug\EnginePart1.exe" /NOLOGO /LIBPATH:"C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\\Lib\x86" d3d9.lib d3dx9.lib winmm.lib xinput.lib winmm.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Derricks\Desktop\RoachOne-master\Debug\EnginePart1.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Derricks\Desktop\RoachOne-master\Debug\EnginePart1.lib" /MACHINE:X86 /SAFESEH Debug\entity.obj
          Debug\Fly.obj
@@ -65,10 +64,9 @@
          Debug\textureManager.obj
          Debug\Tornado.obj
          Debug\winmain.obj
-     1>entity.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
          EnginePart1.vcxproj -> C:\Users\Derricks\Desktop\RoachOne-master\Debug\EnginePart1.exe
      1>Done Building Project "C:\Users\Derricks\Desktop\RoachOne-master\EnginePart1.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.40
+Time Elapsed 00:00:00.94
